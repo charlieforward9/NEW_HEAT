@@ -1,16 +1,17 @@
-# animated_heatmap
+# Google Maps JavaScript Sample
 
-A new Flutter project.
+This sample is generated from @googlemaps/js-samples located at
+https://github.com/googlemaps/js-samples.
 
-## Getting Started
+## Setup
 
-This project is a starting point for a Flutter application.
+```sh
+npm i
+npm start  # development
+npm run build  # production
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Feedback
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+For feedback related to this sample, please open a new issue on
+[GitHub](https://github.com/googlemaps/js-samples/issues).
