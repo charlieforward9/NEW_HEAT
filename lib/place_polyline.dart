@@ -43,6 +43,7 @@ class PlacePolylineBodyState extends State<PlacePolylineBody> {
 
   @override
   Widget build(BuildContext context) {
+    print("rebuilding");
     print(polylines.values);
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -53,8 +54,9 @@ class PlacePolylineBodyState extends State<PlacePolylineBody> {
               width: 350.0,
               height: 300.0,
               child: GoogleMap(
+                key: Key(polylines.values.length.toString()),
                 initialCameraPosition: const CameraPosition(
-                  target: LatLng(26.541805739700794, -80.09499596580863),
+                  target: LatLng(26.660747146233916, -80.2710625436157),
                   zoom: 13.0,
                 ),
                 polylines: Set<Polyline>.of(polylines.values),
@@ -64,14 +66,14 @@ class PlacePolylineBodyState extends State<PlacePolylineBody> {
           ),
           Expanded(
             child: TextButton(
-              onPressed: _createPoints,
+              onPressed: _createLines,
               child: const Text('add'),
             ),
           )
         ]);
   }
 
-  List<LatLng> _createPoints() {
+  void _createLines() {
     List<LatLng> points = [];
     final file = XmlDocument.parse(File(
                 "/Users/crich/Documents/Github/animated_heatmap/lib/data/2022/8283184493.gpx")
@@ -80,30 +82,29 @@ class PlacePolylineBodyState extends State<PlacePolylineBody> {
     final gpx = GpxReader().fromString(file);
     for (var trk in gpx.trks) {
       for (var seg in trk.trksegs) {
+        int i = 0;
         for (var pt in seg.trkpts) {
+          i++;
           if (pt.lat != null && pt.lon != null) {
-            final PolylineId polylineId =
-                PolylineId('polyline_id_${_polylineIdCounter++}');
-            print(polylineId);
-
-            final Polyline polyline = Polyline(
-              polylineId: polylineId,
-              consumeTapEvents: true,
-              color: Colors.purple,
-              width: 8,
-              points: [LatLng(pt.lat!, pt.lon!)],
-            );
-            if (_polylineIdCounter % 67 == 0) {
+            points.add(LatLng(pt.lat!, pt.lon!));
+            if (i % 51 == 0) {
+              _polylineIdCounter++;
+              final Polyline polyline = Polyline(
+                polylineId: PolylineId('polyline_id_$_polylineIdCounter'),
+                consumeTapEvents: true,
+                color: Colors.purple,
+                width: 8,
+                points: points,
+              );
               setState(() {
-                polylines[polylineId] = polyline;
+                polylines[PolylineId('polyline_id_$_polylineIdCounter')] =
+                    polyline;
               });
-            } else {
-              polylines[polylineId] = polyline;
+              //points.clear();
             }
           }
         }
       }
     }
-    return points;
   }
 }
