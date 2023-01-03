@@ -32,6 +32,7 @@
   },
   "private": true,
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.15.1",
     "deck.gl": "^8.8.21"
   }
 }

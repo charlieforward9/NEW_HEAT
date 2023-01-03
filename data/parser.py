@@ -27,11 +27,13 @@ def gpx_to_2022gpx():
 
 def gpx_to_json():
     file = []
-    activity = {}
     index = 0
     output = os.path.abspath(os.path.join(
         os.getcwd(), "2022"+".json")).strip()
     for filename in os.listdir(DIR_2022):
+        activity = {}
+        path = []
+        timestamps = []
         index += 1
         print(index)
         input = os.path.abspath(os.path.join(
@@ -40,12 +42,10 @@ def gpx_to_json():
         latitudes = dic['latitude']
         longitudes = dic['longitude']
         time = dic['time']
-
-        path = []
-        timestamps = []
         for i in range(len(latitudes)):
-            path.append([latitudes[i], longitudes[i]])
-            timestamps.append(time[i].timestamp())
+            path.append([longitudes[i], latitudes[i]])
+            timestamps.append(time[i].timestamp()-1659481469)
+            print(timestamps[i])
         activity["path"] = path
         activity["timestamps"] = timestamps
         file.append(activity)
