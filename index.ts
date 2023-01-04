@@ -8,7 +8,6 @@
 
 // import { GoogleMapsOverlay } from "@deck.gl/google-maps";
 // import { TripsLayer } from "deck.gl";
-import * as $ from 'jquery';
 
 const GoogleMapsOverlay = deck.GoogleMapsOverlay;
 const TripsLayer = deck.TripsLayer;
@@ -23,8 +22,9 @@ const BULK_DATA_URL = "https://raw.githubusercontent.com/charlieforward9/animate
 const RANDOM_DATA_URL = "https://raw.githubusercontent.com/charlieforward9/animated_heatmap/master/data/2022randombulk.json";
 const SEQUENTIAL_LOOP_LENGTH = 31557600;
 const BULK_LOOP_LENGTH = 29667;
+// const WORLDVIEW_LENGTH = 1557600;
 const DATAS = [SEQUENTIAL_DATA_URL,BULK_DATA_URL,RANDOM_DATA_URL]
-const LENGTHS = [SEQUENTIAL_LOOP_LENGTH,BULK_LOOP_LENGTH, BULK_LOOP_LENGTH]
+const LENGTHS = [SEQUENTIAL_LOOP_LENGTH,BULK_LOOP_LENGTH, BULK_LOOP_LENGTH, WORLDVIEW_LENGTH]
 
 function loadScript() {
     var script = document.createElement('script');
@@ -37,11 +37,14 @@ function loadScript() {
 document.getElementById("reset")!.addEventListener("click", (e:Event) => reset());
 
 
-function initMap(): void {
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
+function initMap(): void {
+  //document.getElementById("preloadData")!.addEventListener("click", (e:Event) => preloadData());
   document.getElementById("sequenceAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(0));
   document.getElementById("bulkAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(1));
   document.getElementById("randAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(2));
+  // document.getElementById("sequenceWorld")!.addEventListener("click", (e:Event) => viewportAnimate(3));
 
   let currentTime = 428000;
   let playSpeed = 1;
@@ -57,15 +60,16 @@ function initMap(): void {
     } as google.maps.MapOptions
   );
 
-  function viewportAnimate(index:number): void {
-    currentTime = index == 0 ? 42800: -5;
+  async function viewportAnimate(index:number): Promise<void> {
+    window.scrollTo({top: 70,behavior:'smooth'});
+    currentTime = index == 0 ? 42800: 0;
     map.setCenter({lat: 29.64462421696083, lng: -82.33479384825146});
-    map.setZoom(18);
+    index == 3? map.setZoom(3) : map.setZoom(18);
     map.setTilt(45);
     
     const props = {
       id: "trips",
-      data: DATAS[index],
+      data: DATAS[index%3],
       getPath: (d: Data) =>d.path,
       getTimestamps: (d: Data) => d.timestamps,
       getColor: [255, 87, 51],
@@ -77,14 +81,7 @@ function initMap(): void {
       jointRounded: true,
       capRounded: true
     };
-
-    index == 0 
-      ? window.setInterval(_sequentialAnimation, 80)
-      : window.setInterval(_bulkAnimation, 80)
-
-    
-
-    const animate = () => {
+    const animate =async() => {
       currentTime = (currentTime + playSpeed) % LENGTHS[index];
 
       const tripsLayer = new TripsLayer({
@@ -95,13 +92,21 @@ function initMap(): void {
       overlay.setProps({
         layers: [tripsLayer],
       });
+      if(playSpeed == 1) await delay(1000); //If the animation just started, give it a second to load the overlay
 
       window.requestAnimationFrame(animate);
     };
-
     window.requestAnimationFrame(animate);
+    overlay.setMap(map);
 
-  overlay.setMap(map);
+    if(index == 0) {
+      window.setInterval(_sequentialAnimation, 80);
+    } else if (index == 1 || index || 2) {
+      window.setInterval(_bulkAnimation, 1000);
+    } else if (index == 3) {
+      playSpeed = 10000000;
+    }
+
   }
   function _sequentialAnimation(): void {
     let heading = map.getHeading() || 0;
@@ -233,9 +238,9 @@ function initMap(): void {
   function _bulkAnimation(): void {
     let zoom = map.getZoom() || 10;
 
-    if(zoom > 17) playSpeed = 0.05; else playSpeed *= 1.01;
+    if(zoom > 17) playSpeed = 0.1; else playSpeed *= 1.2;
     
-    if(zoom > 3) map.setZoom(zoom - 0.01);
+    if(zoom > 3) map.setZoom(zoom - 0.2);
   }
 }
 
