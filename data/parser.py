@@ -8,8 +8,9 @@ import json
 
 DIR_STRAVA = "/Users/crich/Downloads/strava"
 DIR_GPX = "/Users/crich/Downloads/strava/activities_gpx"
-DIR_2022 = "/Users/crich/Downloads/strava/2022"
-DIR_JSON = "/Users/crich/Documents/Github/animated_heatmap/data/2022json"
+DIR_2022 = "/Users/crich/Documents/Github/animated_heatmap/data/2022"
+UNIX_EPOCH_2022 = 1640995200
+HIGHEST_LENGTH = 29667
 
 
 def gpx_to_2022gpx():
@@ -25,7 +26,7 @@ def gpx_to_2022gpx():
                     print(index)
 
 
-def gpx_to_json():
+def gpx_to_json_sequential():
     file = []
     index = 0
     output = os.path.abspath(os.path.join(
@@ -44,8 +45,66 @@ def gpx_to_json():
         time = dic['time']
         for i in range(len(latitudes)):
             path.append([longitudes[i], latitudes[i]])
-            timestamps.append(time[i].timestamp()-1659481469)
+            timestamps.append(time[i].timestamp()-UNIX_EPOCH_2022)
             print(timestamps[i])
+        activity["path"] = path
+        activity["timestamps"] = timestamps
+        file.append(activity)
+    with open(output, 'w') as f:
+        json.dump(file, f)
+
+
+def gpx_to_json_bulk():
+    file = []
+    index = 0
+    highestVal = 0
+    output = os.path.abspath(os.path.join(
+        os.getcwd(), "2022bulk"+".json")).strip()
+    for filename in os.listdir(DIR_2022):
+        activity = {}
+        path = []
+        timestamps = []
+        index += 1
+        print(index)
+        input = os.path.abspath(os.path.join(
+            os.getcwd(), "2022/", filename)).strip()
+        dic = Converter(input_file=input).gpx_to_dictionary()
+        latitudes = dic['latitude']
+        longitudes = dic['longitude']
+        time = dic['time']
+        for i in range(len(latitudes)):
+            path.append([longitudes[i], latitudes[i]])
+            timestamps.append(i)
+            if(i > highestVal):
+                highestVal = i
+        activity["path"] = path
+        activity["timestamps"] = timestamps
+        file.append(activity)
+    with open(output, 'w') as f:
+        json.dump(file, f)
+    print(highestVal)
+
+
+def gpx_to_json_randombulk():
+    file = []
+    index = 0
+    output = os.path.abspath(os.path.join(
+        os.getcwd(), "2022randombulk"+".json")).strip()
+    for filename in os.listdir(DIR_2022):
+        activity = {}
+        path = []
+        timestamps = []
+        index += 1
+        print(index)
+        input = os.path.abspath(os.path.join(
+            os.getcwd(), "2022/", filename)).strip()
+        dic = Converter(input_file=input).gpx_to_dictionary()
+        latitudes = dic['latitude']
+        longitudes = dic['longitude']
+        time = dic['time']
+        for i in range(len(latitudes)):
+            path.append([longitudes[i], latitudes[i]])
+            timestamps.append(time[i].timestamp() % HIGHEST_LENGTH)
         activity["path"] = path
         activity["timestamps"] = timestamps
         file.append(activity)
@@ -71,5 +130,7 @@ def gpx_to_json():
 # print("Fit converted to GPX")
 # gpx_to_2022gpx()
 # print("This years files filtered")
-gpx_to_json()
+gpx_to_json_sequential()
+gpx_to_json_bulk()
+gpx_to_json_randombulk()
 print("Successfully converted and merged to JSON")
