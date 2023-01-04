@@ -25,6 +25,15 @@ const BULK_LOOP_LENGTH = 29667;
 const DATAS = [SEQUENTIAL_DATA_URL,BULK_DATA_URL,RANDOM_DATA_URL]
 const LENGTHS = [SEQUENTIAL_LOOP_LENGTH,BULK_LOOP_LENGTH, BULK_LOOP_LENGTH]
 
+function loadScript() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = "https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyDoVOLk0SYBOGRcupNpEhVLeGUqjkBtJ_A&callback=initMap"
+    document.body.appendChild(script);
+}
+
+
+
 function initMap(): void {
 
   document.getElementById("sequenceAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(0));
@@ -32,8 +41,8 @@ function initMap(): void {
   document.getElementById("randAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(2));
 
   let currentTime = 428000;
-    let playSpeed = 1;
-    const overlay = new GoogleMapsOverlay({});
+  let playSpeed = 1;
+  const overlay = new GoogleMapsOverlay({});
   const map = new google.maps.Map(
     document.getElementById("map") as HTMLElement,
     {
@@ -235,5 +244,7 @@ declare global {
     initMap: () => void;
   }
 }
+
+window.onload = loadScript;
 window.initMap = initMap;
 export {};
