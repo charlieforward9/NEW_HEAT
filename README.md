@@ -1,17 +1,7 @@
-# Google Maps JavaScript Sample
+# 2022 Animated Heatmap
 
-This sample is generated from @googlemaps/js-samples located at
-https://github.com/googlemaps/js-samples.
+A longer-than-expected project I took on of making a cool animation of all the human powered trips I have taken in 2022
 
-## Setup
+## Enjoy
 
-```sh
-npm i
-npm start  # development
-npm run build  # production
-```
-
-## Feedback
-
-For feedback related to this sample, please open a new issue on
-[GitHub](https://github.com/googlemaps/js-samples/issues).
+Build by Charbo using Google Maps API, Deck.GL, Vite, Github Pages, and a bunch of Python libraries
