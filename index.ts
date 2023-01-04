@@ -17,49 +17,83 @@ interface Data {
   timestamps: number[];
 }
 
-const DATA_URL =
-  "https://raw.githubusercontent.com/charlieforward9/animated_heatmap/master/data/2022.json";
-
-const LOOP_LENGTH = 31557600;
-const VENDOR_COLORS = [
-  [255, 0, 0], // vendor #0
-  [0, 0, 255], // vendor #1
-];
+const SEQUENTIAL_DATA_URL = "https://raw.githubusercontent.com/charlieforward9/animated_heatmap/master/data/2022.json";
+const BULK_DATA_URL = "https://raw.githubusercontent.com/charlieforward9/animated_heatmap/master/data/2022bulk.json";
+const RANDOM_DATA_URL = "https://raw.githubusercontent.com/charlieforward9/animated_heatmap/master/data/2022randombulk.json";
+const SEQUENTIAL_LOOP_LENGTH = 31557600;
+const BULK_LOOP_LENGTH = 29667;
+const DATAS = [SEQUENTIAL_DATA_URL,BULK_DATA_URL,RANDOM_DATA_URL]
+const LENGTHS = [SEQUENTIAL_LOOP_LENGTH,BULK_LOOP_LENGTH, BULK_LOOP_LENGTH]
 
 function initMap(): void {
+
+  document.getElementById("sequenceAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(0));
+  document.getElementById("bulkAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(1));
+  document.getElementById("randAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(2));
+
+  let currentTime = 428000;
+    let playSpeed = 1;
+    const overlay = new GoogleMapsOverlay({});
   const map = new google.maps.Map(
     document.getElementById("map") as HTMLElement,
     {
       center: { lat: 29.64462421696083, lng: -82.33479384825146},
       mapId: '1ae1962daafbdd69',
       tilt: 45,
-      zoom: 18,
+      zoom: 17,
       disableDefaultUI: true,
     } as google.maps.MapOptions
   );
-  const view = new deck.MapView({id:"view", x:29.64462421696083, y: -82.33479384825146, width: 300, height: 200});
 
-  let currentTime = 428000;
-  let playSpeed = 1;
-  const props = {
-    id: "trips",
-    data: DATA_URL,
-    getPath: (d: Data) =>d.path,
-    getTimestamps: (d: Data) => d.timestamps,
-    getColor: [255, 87, 51],
-    opacity: 1,
-    widthMinPixels: 4,
-    trailLength: 31557600,
-    currentTime,
-    shadowEnabled: false,
-    jointRounded: true,
-    capRounded: true
-  };
+  function viewportAnimate(index:number): void {
+    currentTime = index == 0 ? 42800: -5;
+    map.setCenter({lat: 29.64462421696083, lng: -82.33479384825146});
+    map.setZoom(18);
+    map.setTilt(45);
+    
+    const props = {
+      id: "trips",
+      data: DATAS[index],
+      getPath: (d: Data) =>d.path,
+      getTimestamps: (d: Data) => d.timestamps,
+      getColor: [255, 87, 51],
+      opacity: 1,
+      widthMinPixels: 4,
+      trailLength: LENGTHS[index],
+      currentTime,
+      shadowEnabled: false,
+      jointRounded: true,
+      capRounded: true
+    };
 
-  function autoAnimate(): void {
-    window.setInterval(viewportAnimation, 80);
+    index == 0 
+      ? window.setInterval(_sequentialAnimation, 80)
+      : window.setInterval(_bulkAnimation, 80)
+
+    
+
+    const animate = () => {
+      currentTime = (currentTime + playSpeed) % LENGTHS[index];
+
+      const tripsLayer = new TripsLayer({
+        ...props,
+        currentTime,
+      });
+
+      overlay.setProps({
+        layers: [tripsLayer],
+      });
+
+      window.requestAnimationFrame(animate);
+    };
+
+    window.requestAnimationFrame(animate);
+
+  overlay.setMap(map);
   }
-  function viewportAnimation(): void {
+
+
+  function _sequentialAnimation(): void {
     let heading = map.getHeading() || 0;
     let zoom = map.getZoom() || 10;
     let tilt = map.getTilt() || 45;
@@ -186,28 +220,14 @@ function initMap(): void {
     }
   
   }
+  function _bulkAnimation(): void {
+    let zoom = map.getZoom() || 10;
 
-  const overlay = new GoogleMapsOverlay({});
+    if(zoom > 17) playSpeed = 0.05; else playSpeed *= 1.01;
+    
+    if(zoom > 2) map.setZoom(zoom - 0.01);
+  }
 
-  const animate = () => {
-    currentTime = (currentTime + playSpeed) % LOOP_LENGTH;
-
-    const tripsLayer = new TripsLayer({
-      ...props,
-      currentTime,
-    });
-
-    overlay.setProps({
-      layers: [tripsLayer],
-    });
-
-    window.requestAnimationFrame(animate);
-  };
-
-  window.requestAnimationFrame(animate);
-  autoAnimate()
-
-  overlay.setMap(map);
 }
 
 declare global {

@@ -19,7 +19,7 @@
  * that contains the map. 
  */
 #map {
-  height: 100%;
+  height: 95%;
 }
 
 /* 
@@ -31,4 +31,3 @@ body {
   margin: 0;
   padding: 0;
 }
-
