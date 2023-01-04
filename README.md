@@ -4,4 +4,4 @@ A longer-than-expected project I took on of making a cool animation of all the h
 
 ## Enjoy
 
-Build by Charbo using Google Maps API, Deck.GL, Vite, Github Pages, and a bunch of Python libraries
+Build by Charbo using Google Maps API, Deck.GL, Vite, Github Pages, and a bunch of Python file parsing libraries
