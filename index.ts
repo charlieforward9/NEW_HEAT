@@ -65,7 +65,7 @@ function initMap(): void {
     let tilt = map.getTilt() || 45;
 
     if (currentTime < 3500000) {
-      if(playSpeed<270000) playSpeed *= 1.05;
+      if(playSpeed<265000) playSpeed *= 1.05;
       //Gainesville
       map.setHeading(heading - 0.1);
       map.setZoom(zoom - 0.01);
@@ -83,14 +83,14 @@ function initMap(): void {
       map.panBy(0,2);
       
 
-    } else if (currentTime < 7700000) {
+    } else if (currentTime < 7750000) {
       //Gainesville 
       playSpeed = 30000;
-      map.setHeading(heading + 0.1);
+      map.setHeading(heading + 0.07);
       if(zoom>11)map.setZoom(zoom - 0.01);
-      map.setCenter({ lat: 29.64462421696083, lng: -82.33479384825146});
+      map.setCenter({lat: 29.64462421696083, lng: -82.33479384825146});
       
-    } else if (currentTime < 7900000) {
+    } else if (currentTime < 8000000) {
       //Lake Lanier GA
       if (currentTime < 7760000){
         playSpeed = 1000;
@@ -118,7 +118,6 @@ function initMap(): void {
       //Omaha NE
       playSpeed = 2000;
       map.setCenter({ lat: 41.2565, lng: -95.9345});
-      playSpeed = playSpeed * 1.05;
       map.setZoom(zoom + 0.04);
       map.setTilt(tilt+0.3);
 
@@ -133,53 +132,57 @@ function initMap(): void {
       if (zoom > 9) map.setZoom(zoom -0.04);
       map.setHeading(heading + 0.3);
     } else if (currentTime < 20000000) {
-      playSpeed = 30000;
+      playSpeed = 9000 * 1.01;
       //Talullah Falls
       map.panTo({ lat:34.7367, lng: -83.3927});
       map.setZoom(zoom + 0.05);
 
     } else if (currentTime < 22200000) {
       //Gainesville
+      map.setHeading(0);
+      map.setZoom(zoom + 0.01);
       map.panTo({ lat: 29.64462421696083, lng: -82.33479384825146});
 
     } else if (currentTime < 22600000) {
       //Irving Texas
-      map.panTo({ lat:32.8140, lng: -96.9489});
-      map.setZoom(zoom + 0.5)
+      map.panTo({ lat:32.9140, lng: -96.9489});
+      map.setZoom(zoom + 0.01)
 
     } else if (currentTime < 23300000) {
       //Gainesville
       map.panTo({ lat: 29.64462421696083, lng: -82.33479384825146});
+      map.setZoom(zoom+ 0.01);
 
     } else if (currentTime < 24300000) {
       //Wellington
       map.panTo({ lat: 26.6618, lng: -80.2684});
+      map.setZoom(zoom + 0.01);
 
     } else if (currentTime < 26800000) {
       //Gainesville
       map.panTo({ lat: 29.64462421696083, lng: -82.33479384825146});
+      map.setZoom(zoom - 0.01);
 
     } else if (currentTime < 28200000) {
       //Spain
       map.panTo({ lat: 42.2406, lng: -8.7207});
+      map.setHeading(heading + 0.1);
 
     } else if (currentTime < 30000000) {
       //Gainesville
       map.panTo({ lat: 29.64462421696083, lng: -82.33479384825146});
+      map.setHeading(0);
+      map.setZoom(zoom - 0.05);
 
     } else if (currentTime < 30600000) {
       //FloRida 2
       map.panTo({ lat: 28.2920, lng: -81.4076});
+      map.setZoom(zoom - 0.05);
 
-    } else if (currentTime < 31000000) {
+    } else if (currentTime < 32000000) {
       //North Carolina
       map.panTo({ lat: 36.2168, lng: -81.6746});;
-
-    } else {
-      //Wellington
-      map.panTo({ lat: 26.6618, lng: -80.2684});
-
-
+      map.setZoom(3); 
     }
   
   }
