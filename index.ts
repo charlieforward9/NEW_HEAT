@@ -8,6 +8,7 @@
 
 // import { GoogleMapsOverlay } from "@deck.gl/google-maps";
 // import { TripsLayer } from "deck.gl";
+import * as $ from 'jquery';
 
 const GoogleMapsOverlay = deck.GoogleMapsOverlay;
 const TripsLayer = deck.TripsLayer;
@@ -30,8 +31,10 @@ function loadScript() {
     script.type = 'text/javascript';
     script.src = "https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyDoVOLk0SYBOGRcupNpEhVLeGUqjkBtJ_A&callback=initMap"
     document.body.appendChild(script);
+    jQuery('#welcome')!.modal('show');
 }
 
+document.getElementById("reset")!.addEventListener("click", (e:Event) => reset());
 
 
 function initMap(): void {
@@ -100,8 +103,6 @@ function initMap(): void {
 
   overlay.setMap(map);
   }
-
-
   function _sequentialAnimation(): void {
     let heading = map.getHeading() || 0;
     let zoom = map.getZoom() || 10;
@@ -234,9 +235,13 @@ function initMap(): void {
 
     if(zoom > 17) playSpeed = 0.05; else playSpeed *= 1.01;
     
-    if(zoom > 2) map.setZoom(zoom - 0.01);
+    if(zoom > 3) map.setZoom(zoom - 0.01);
   }
+}
 
+function reset():void {
+  window.location.reload();
+  window.initMap = initMap;
 }
 
 declare global {
