@@ -17,6 +17,9 @@ interface Data {
   timestamps: number[];
 }
 
+const MAPID_LIGHT = "5e2bfc552939a6f4";
+const MAPID_DARK = "1ae1962daafbdd69";
+
 const SEQUENTIAL_DATA_URL = "https://raw.githubusercontent.com/charlieforward9/animated_heatmap/master/data/2022.json";
 const BULK_DATA_URL = "https://raw.githubusercontent.com/charlieforward9/animated_heatmap/master/data/2022bulk.json";
 const RANDOM_DATA_URL = "https://raw.githubusercontent.com/charlieforward9/animated_heatmap/master/data/2022randombulk.json";
@@ -44,6 +47,8 @@ function initMap(): void {
   document.getElementById("sequenceAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(0));
   document.getElementById("bulkAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(1));
   document.getElementById("randAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(2));
+  document.getElementById("normAnimate")!.addEventListener("click", (e:Event) => viewportAnimate(4));
+
   // document.getElementById("sequenceWorld")!.addEventListener("click", (e:Event) => viewportAnimate(3));
 
   let currentTime = 428000;
@@ -53,7 +58,7 @@ function initMap(): void {
     document.getElementById("map") as HTMLElement,
     {
       center: { lat: 29.64462421696083, lng: -82.33479384825146},
-      mapId: '1ae1962daafbdd69',
+      mapId: MAPID_LIGHT,
       tilt: 45,
       zoom: 17,
       disableDefaultUI: true,
@@ -64,7 +69,7 @@ function initMap(): void {
     window.scrollTo({top: 70,behavior:'smooth'});
     currentTime = index == 0 ? 42800: 0;
     map.setCenter({lat: 29.64462421696083, lng: -82.33479384825146});
-    index == 3? map.setZoom(3) : map.setZoom(18);
+    map.setZoom(18);
     map.setTilt(45);
     
     const props = {
@@ -75,14 +80,14 @@ function initMap(): void {
       getColor: [255, 87, 51],
       opacity: 1,
       widthMinPixels: 4,
-      trailLength: LENGTHS[index],
+      trailLength: LENGTHS[index % 3],
       currentTime,
       shadowEnabled: false,
       jointRounded: true,
       capRounded: true
     };
     const animate =async() => {
-      currentTime = (currentTime + playSpeed) % LENGTHS[index];
+      currentTime = (currentTime + playSpeed) % LENGTHS[index % 3];
 
       const tripsLayer = new TripsLayer({
         ...props,
@@ -105,6 +110,8 @@ function initMap(): void {
       window.setInterval(_bulkAnimation, 1000);
     } else if (index == 3) {
       playSpeed = 10000000;
+    } else if (index == 4) {
+      playSpeed = 100000;
     }
 
   }
