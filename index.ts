@@ -17,6 +17,10 @@ interface Data {
   timestamps: number[];
 }
 
+const ORANGE = [255, 87, 51];
+const LINKEDIN_BLUE = [0, 114, 177]
+
+
 const MAPID_LIGHT = "5e2bfc552939a6f4";
 const MAPID_DARK = "1ae1962daafbdd69";
 
@@ -77,8 +81,8 @@ function initMap(): void {
       data: DATAS[index%3],
       getPath: (d: Data) =>d.path,
       getTimestamps: (d: Data) => d.timestamps,
-      getColor: [255, 87, 51],
-      opacity: 1,
+      getColor: LINKEDIN_BLUE,
+      opacity: 0.7,
       widthMinPixels: 4,
       trailLength: LENGTHS[index % 3],
       currentTime,
@@ -111,7 +115,9 @@ function initMap(): void {
     } else if (index == 3) {
       playSpeed = 10000000;
     } else if (index == 4) {
-      playSpeed = 100000;
+      playSpeed = 1000;
+    } else if (index == 5) {
+      playSpeed = 3000;
     }
 
   }
