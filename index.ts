@@ -106,7 +106,7 @@ function initMap(): void {
 
     if(index == 0) {
       window.setInterval(_sequentialAnimation, 80);
-    } else if (index == 1 || index || 2) {
+    } else if (index == 1 || index == 2) {
       window.setInterval(_bulkAnimation, 1000);
     } else if (index == 3) {
       playSpeed = 10000000;
