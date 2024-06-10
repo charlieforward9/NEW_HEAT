@@ -1,6 +1,8 @@
 import { GoogleMapsOverlay } from "@deck.gl/google-maps";
 import { Loader } from "@googlemaps/js-api-loader";
 import { Color, TripsLayer } from "deck.gl";
+import * as b from "bootstrap";
+import * as $ from "jquery";
 
 interface Data {
   path: [number, number][];
@@ -10,7 +12,6 @@ interface Data {
 const ORANGE: Color = [255, 87, 51];
 const LINKEDIN_BLUE: Color = [0, 114, 177];
 
-const MAP_KEY = "AIzaSyDoVOLk0SYBOGRcupNpEhVLeGUqjkBtJ_A";
 const MAPID_LIGHT = "5e2bfc552939a6f4";
 const MAPID_DARK = "1ae1962daafbdd69";
 
@@ -27,7 +28,10 @@ const DATAS = [SEQUENTIAL_DATA_URL, BULK_DATA_URL, RANDOM_DATA_URL];
 const LENGTHS = [SEQUENTIAL_LOOP_LENGTH, BULK_LOOP_LENGTH, BULK_LOOP_LENGTH];
 
 async function loadScript() {
-  const loader = new Loader({ apiKey: MAP_KEY });
+  if (import.meta.env.VITE_MAP_KEY === undefined) {
+    throw new Error("API Key not found, ask Charbo for it.");
+  }
+  const loader = new Loader({ apiKey: import.meta.env.VITE_MAP_KEY });
   const googlemaps = await loader.importLibrary("maps");
 
   const map = new googlemaps.Map(
@@ -41,7 +45,7 @@ async function loadScript() {
     } as google.maps.MapOptions
   );
   initMap();
-  jQuery("#welcome")!.modal("show");
+  $("#welcome")!.modal("show");
 }
 
 document
