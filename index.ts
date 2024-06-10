@@ -2,7 +2,7 @@ import { GoogleMapsOverlay } from "@deck.gl/google-maps";
 import { Loader } from "@googlemaps/js-api-loader";
 import { Color, TripsLayer } from "deck.gl";
 import * as b from "bootstrap";
-import * as $ from "jquery";
+import "jquery";
 
 interface Data {
   path: [number, number][];
@@ -45,7 +45,7 @@ async function loadScript() {
     } as google.maps.MapOptions
   );
   initMap();
-  $("#welcome")!.modal("show");
+  jQuery("#welcome")!.modal("show");
 }
 
 document
