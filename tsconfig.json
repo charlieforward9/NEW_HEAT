@@ -4,6 +4,7 @@
     "target": "esnext",
     "strict": true,
     "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
     "lib": ["esnext", "es6", "dom", "dom.iterable"],
     "moduleResolution": "Node",
     "jsx": "preserve",
