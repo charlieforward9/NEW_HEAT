@@ -34,7 +34,7 @@ def gpx_to_layer():
                     for segment in track.segments:
                         for point in segment.points:
                             gpx_layer.append([point.time.timestamp(), point.longitude, point.latitude])
-                activity_layer[gpx.get_time_bounds().start_time.timestamp()] = gpx_layer
+                activity_layer[int(gpx.get_time_bounds().start_time.timestamp())] = gpx_layer
     with open(os.path.join(DIR_DATA, "strava_layer.json"), 'w') as f:
         json.dump(activity_layer, f)
 
