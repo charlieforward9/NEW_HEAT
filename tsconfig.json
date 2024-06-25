@@ -1,13 +1,3 @@
-{
-  "compilerOptions": {
-    "module": "esnext",
-    "target": "esnext",
-    "strict": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "lib": ["esnext", "es6", "dom", "dom.iterable"],
-    "moduleResolution": "Node",
-    "jsx": "preserve",
-    "types": ["vite/client"]
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a689c421cb0f8e515d96c140207bf83db3166a0f881ba275e303829d6eaf927b
+size 366
