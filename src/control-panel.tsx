@@ -1,33 +1,37 @@
 import * as React from "react";
 import type { MapConfig } from "./app";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type ControlPanelProps = {
   mapConfigs: MapConfig[];
   mapConfigId: string;
   onMapConfigIdChange: (id: string) => void;
+  startDate: Date;
+  endDate: Date;
+  onSetStartDate: (date: Date) => void;
+  onSetEndDate: (date: Date) => void;
+  daysPerTick: number;
+  onSetDaysPerTick: (days: number) => void;
+  currentTime: number;
 };
 
 function ControlPanel({
   mapConfigs,
   mapConfigId,
   onMapConfigIdChange,
+  startDate,
+  endDate,
+  onSetStartDate,
+  onSetEndDate,
+  daysPerTick,
+  onSetDaysPerTick,
+  currentTime,
 }: ControlPanelProps) {
   return (
     <div className="control-panel">
       <h3>Change Map Styles</h3>
-      <p>
-        The <code>Map</code> component can switch between multiple styles, even
-        between cloud-based and local styles, on the fly. Switching the mapType
-        is supported as well.
-      </p>
-      <p>
-        Due to the way the Maps API works, a new <code>google.maps.Map</code>{" "}
-        instance has to be created when changing the mapId. This will affect the
-        number of paid map-views.
-      </p>
-
       <div>
-        <label>Map Configuration</label>
         <select
           value={mapConfigId}
           onChange={(ev) => onMapConfigIdChange(ev.target.value)}
@@ -39,21 +43,51 @@ function ControlPanel({
           ))}
         </select>
       </div>
+      <h3>Map Layer Control</h3>
 
-      <div className="links">
-        <a
-          href="https://codesandbox.io/s/github/visgl/react-google-maps/tree/main/examples/change-map-styles"
-          target="_new"
-        >
-          Try on CodeSandbox ↗
-        </a>
-
-        <a
-          href="https://github.com/visgl/react-google-maps/tree/main/examples/change-map-styles"
-          target="_new"
-        >
-          View Code ↗
-        </a>
+      <div>
+        <div>
+          <div>
+            <label>Start Date: </label>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => date && onSetStartDate(date)}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+              dateFormat="yyyy/MM/dd"
+            />
+          </div>
+          <div>
+            <label>End Date: </label>
+            <DatePicker
+              selected={endDate}
+              onChange={(date) => date && onSetEndDate(date)}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate}
+              dateFormat="yyyy/MM/dd"
+            />
+          </div>
+          <div>
+            <label>Days per Tick: </label>
+            <input
+              type="number"
+              value={daysPerTick}
+              onChange={(ev) => onSetDaysPerTick(Number(ev.target.value))}
+            />
+          </div>
+          <div>
+            <p>
+              Current:{" "}
+              {new Date(currentTime * 1000).toLocaleString("default", {
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

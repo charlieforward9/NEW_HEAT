@@ -14,6 +14,13 @@ const mapTypes = {
   "black without buildings": "4f6dde3310be51d7",
 };
 
+const Times = {
+  START_2020: 1577836800000,
+  START_2023: 1672593838000,
+  END_2023: 1694139838000,
+  END_2024: 1704139838000,
+};
+
 const MapTypeId = {
   HYBRID: "hybrid",
   ROADMAP: "roadmap",
@@ -93,16 +100,34 @@ const API_KEY =
 
 const App = () => {
   const [mapConfig, setMapConfig] = useState<MapConfig>(MAP_CONFIGS[0]);
+  const [startDate, setStartDate] = useState<Date>(new Date(Times.START_2020));
+  const [endDate, setEndDate] = useState<Date>(new Date(Times.END_2024));
+  const [daysPerTick, setDaysPerTick] = useState<number>(30);
+  const [currentTime, setCurrentTime] = useState(startDate.getTime() / 1000);
 
   return (
     <APIProvider apiKey={API_KEY}>
-      <AnimatedMap mapConfig={mapConfig} />
+      <AnimatedMap
+        mapConfig={mapConfig}
+        startTime={startDate?.getTime() / 1000}
+        endTime={endDate?.getTime() / 1000}
+        daysPerTick={daysPerTick}
+        currentTime={currentTime}
+        onSetCurrentTime={(t) => setCurrentTime(t)}
+      />
       <ControlPanel
         mapConfigs={MAP_CONFIGS}
         mapConfigId={mapConfig.id}
         onMapConfigIdChange={(id) =>
           setMapConfig(MAP_CONFIGS.find((s) => s.id === id)!)
         }
+        startDate={startDate}
+        endDate={endDate}
+        onSetStartDate={(d) => setStartDate(d)}
+        onSetEndDate={(d) => setEndDate(d)}
+        daysPerTick={daysPerTick}
+        onSetDaysPerTick={(d) => setDaysPerTick(d)}
+        currentTime={currentTime}
       />
     </APIProvider>
   );
