@@ -12,7 +12,6 @@
   ],
   "scripts": {
     "dev": "vite",
-    "start": "vite",
     "build": "vite build --outDir dist --base './'",
     "test": "tsc --no-emit",
     "preview": "vite preview"
@@ -33,6 +32,7 @@
     "deck.gl": "^9.0.20",
     "jquery": "^3.7.1",
     "react": "^18.3.1",
+    "react-datepicker": "^7.1.0",
     "react-dom": "^18.3.1"
   }
 }
