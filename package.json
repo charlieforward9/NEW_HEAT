@@ -11,7 +11,7 @@
     "samples"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "NODE_OPTIONS='--max-old-space-size=8192' vite",
     "build": "vite build --outDir dist --base './'",
     "test": "tsc --no-emit",
     "preview": "vite preview"
@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@deck.gl/google-maps": "^9.0.20",
+    "@million/lint": "^1.0.0-rc.26",
     "@vis.gl/react-google-maps": "latest",
     "@vitejs/plugin-react-swc": "^3.7.0",
     "deck.gl": "^9.0.20",

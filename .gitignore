@@ -4,3 +4,5 @@ dist
 package-lock.json
 data/activities
 .env
+# Million Lint
+.million
