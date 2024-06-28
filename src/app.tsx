@@ -102,7 +102,7 @@ const App = () => {
   const [mapConfig, setMapConfig] = useState<MapConfig>(MAP_CONFIGS[0]);
   const [startDate, setStartDate] = useState<Date>(new Date(Times.START_2020));
   const [endDate, setEndDate] = useState<Date>(new Date(Times.END_2024));
-  const [daysPerTick, setDaysPerTick] = useState<number>(30);
+  const [daysPerTick, setDaysPerTick] = useState<number>(20);
   const [currentTime, setCurrentTime] = useState(startDate.getTime() / 1000);
 
   return (

@@ -4,16 +4,11 @@ import {
 } from "@vis.gl/react-google-maps";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DeckGlOverlay } from "./deckgl-overlay";
-import {
-  Color,
-  HeatmapLayer,
-  // HeatmapLayer,
-  TripsLayer,
-} from "deck.gl";
+import { Color, TripsLayer } from "deck.gl";
 import { MapConfig } from "./app";
 
 type RawData = {
-  [key: number]: [number, number, number][]; // key is the timestamp, value is an array of [longitude, latitude]
+  [key: number]: [number, number, number][]; // key is the timestamp, value is an array of [timestamp, longitude, latitude]
 };
 type StravaLayer = Map<number, ActivityLayer>;
 type ActivityLayer = Point[];
@@ -23,11 +18,11 @@ type TripLayer = {
   timestamps: number[];
 };
 
-const animationDuration = 100000;
+const animationDuration = 150000;
 
 const cameraStart: MapCameraProps = {
   center: { lat: 29.645834, lng: -82.353026 },
-  zoom: 19,
+  zoom: 15,
   heading: 331,
   tilt: 67.5,
 };
@@ -89,11 +84,11 @@ export const AnimatedMap = ({
     function loop(t: number) {
       rafId = requestAnimationFrame(loop);
 
-      // const elapsedTimeRelative = (t - t0) / animationDuration;
-      // const progress =
-      //   Math.cos(Math.PI + 2 * Math.PI * elapsedTimeRelative) / 2 + 0.5;
+      const elapsedTimeRelative = (t - t0) / animationDuration;
+      const progress =
+        Math.cos(Math.PI + 2 * Math.PI * elapsedTimeRelative) / 2 + 0.5;
 
-      //setCameraProps(interpolateCamera(cameraStart, cameraEnd, progress));
+      setCameraProps(interpolateCamera(cameraStart, cameraEnd, progress));
       const elapsedSeconds = Number(
         ((t - t0 / 1000) * (daysPerTick * 86.4)).toFixed(0)
       );
@@ -124,7 +119,7 @@ export const AnimatedMap = ({
       gestureHandling={"greedy"}
       disableDefaultUI={true}
       reuseMaps={true}
-      //{...cameraProps}
+      {...cameraProps}
     >
       {<DeckGlOverlay layers={layers} />}
     </ReactGoogleMap>
@@ -132,7 +127,7 @@ export const AnimatedMap = ({
 };
 
 function getDeckGlLayers(data: TripLayer[] | null, currentTime: number) {
-  const ORANGE: Color = [255, 87, 51];
+  const ORANGE: Color = [252, 76, 2];
 
   if (!data) return [];
   return [
