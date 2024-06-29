@@ -18,7 +18,7 @@ type TripLayer = {
   timestamps: number[];
 };
 
-const animationDuration = 150000;
+const animationDuration = 90000;
 
 const cameraStart: MapCameraProps = {
   center: { lat: 29.645834, lng: -82.353026 },

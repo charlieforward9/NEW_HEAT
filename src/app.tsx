@@ -9,11 +9,6 @@ import vitaminCStyles from "./map-styles/vitamin-c";
 import ControlPanel from "./control-panel";
 import { AnimatedMap } from "./animated_map";
 
-const mapTypes = {
-  "white with buildings": "5e13191437f4efb4",
-  "black without buildings": "4f6dde3310be51d7",
-};
-
 const Times = {
   START_2020: 1577836800000,
   START_2023: 1672593838000,
@@ -93,6 +88,18 @@ const MAP_CONFIGS: MapConfig[] = [
     mapId: "49ae42fed52588c3",
     mapTypeId: MapTypeId.TERRAIN,
   },
+  {
+    id: "ogwhite",
+    label: "white with buildings",
+    mapId: "5e13191437f4efb4",
+    mapTypeId: MapTypeId.ROADMAP,
+  },
+  {
+    id: "ogblack",
+    label: "black without buildings",
+    mapId: "4f6dde3310be51d7",
+    mapTypeId: MapTypeId.ROADMAP,
+  },
 ];
 
 const API_KEY =
@@ -102,7 +109,7 @@ const App = () => {
   const [mapConfig, setMapConfig] = useState<MapConfig>(MAP_CONFIGS[0]);
   const [startDate, setStartDate] = useState<Date>(new Date(Times.START_2020));
   const [endDate, setEndDate] = useState<Date>(new Date(Times.END_2024));
-  const [daysPerTick, setDaysPerTick] = useState<number>(20);
+  const [daysPerTick, setDaysPerTick] = useState<number>(33);
   const [currentTime, setCurrentTime] = useState(startDate.getTime() / 1000);
 
   return (
