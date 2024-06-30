@@ -13,7 +13,6 @@ type ControlPanelProps = {
   onSetEndDate: (date: Date) => void;
   daysPerTick: number;
   onSetDaysPerTick: (days: number) => void;
-  currentTime: number;
 };
 
 function ControlPanel({
@@ -26,7 +25,6 @@ function ControlPanel({
   onSetEndDate,
   daysPerTick,
   onSetDaysPerTick,
-  currentTime,
 }: ControlPanelProps) {
   return (
     <div className="control-panel">
@@ -77,15 +75,6 @@ function ControlPanel({
               value={daysPerTick}
               onChange={(ev) => onSetDaysPerTick(Number(ev.target.value))}
             />
-          </div>
-          <div>
-            <p>
-              Current:{" "}
-              {new Date(currentTime * 1000).toLocaleString("default", {
-                month: "long",
-                year: "numeric",
-              })}
-            </p>
           </div>
         </div>
       </div>
