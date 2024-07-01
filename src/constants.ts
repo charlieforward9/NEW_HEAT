@@ -112,8 +112,8 @@ export const layerProps: TripsLayerProps<TripLayer> = {
   getColor: ORANGE,
   opacity: 0.7,
   currentTime: 0,
-  trailLength: 600000000,
-  widthMinPixels: 4,
+  trailLength: 400000000,
+  widthMinPixels: 2,
   jointRounded: true,
   capRounded: true,
   onError: (error: Error) => {

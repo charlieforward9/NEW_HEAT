@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNH, useNHDispatch } from "./state";
 import { MAP_CONFIGS } from "./constants";
@@ -66,29 +65,6 @@ const ControlPanel: React.FC = () => {
               </option>
             ))}
           </select>
-        </div>
-        <div>
-          <label>Start:</label>
-          <DatePicker
-            selected={localStartDate}
-            onChange={onStartDateChange}
-            selectsStart
-            startDate={localStartDate}
-            endDate={localEndDate}
-            dateFormat="yyyy/MM/dd"
-          />
-        </div>
-        <div>
-          <label>End:</label>
-          <DatePicker
-            selected={localEndDate}
-            onChange={onEndDateChange}
-            selectsEnd
-            startDate={localStartDate}
-            endDate={localEndDate}
-            minDate={localStartDate}
-            dateFormat="yyyy/MM/dd"
-          />
         </div>
         <div>
           <label>Days per Tick:</label>
