@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "NODE_OPTIONS='--max-old-space-size=8192' vite",
-    "build": "vite build --outDir dist --base './'",
+    "build": "NODE_OPTIONS='--max-old-space-size=16384' vite build --outDir dist --base './'",
     "test": "tsc --no-emit",
     "preview": "vite preview"
   },
