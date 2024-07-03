@@ -4,9 +4,9 @@ import type { TripsLayerProps } from "@deck.gl/geo-layers";
 import type { MapConfig, TripLayer } from "./types";
 
 export const API_KEY =
-  import.meta.env.VITE_GOOGLE_MAPS_API_KEY ??
-  globalThis.GOOGLE_MAPS_API_KEY ??
-  (process.env.GOOGLE_MAPS_API_KEY as string);
+  import.meta.env.VITE_MAP_KEY ??
+  globalThis.VITE_MAP_KEY ??
+  (process.env.VITE_MAP_KEY as string);
 
 export const Times = {
   START_2020: 1577880000000,
