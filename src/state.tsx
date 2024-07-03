@@ -19,6 +19,7 @@ import {
   cameraStart,
   layerProps,
   MAP_CONFIGS,
+  SECOND_IN_DAY_TIMES_TEN,
   Times,
 } from "./constants";
 import { APIProvider } from "@vis.gl/react-google-maps";
@@ -39,6 +40,7 @@ const initialState: NHState = {
   animating: false,
   loading: true,
   loading_progress: 0,
+  showAttributions: false,
 };
 
 export const NHContext = createContext<NHState>(initialState);
@@ -111,12 +113,17 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
     case "SET_CURRENT_TIME":
       return { ...state, currentTime: action.currentTime };
     case "SET_ANIMATING":
+      console.log(state.endTime, state.currentTime);
       return {
         ...state,
         animating: action.animating,
         currentTime: action.animating
           ? state.startTime
-          : Math.abs(state.endTime - state.currentTime) < 100
+          : //If the next time will exceed the endTime, set the currentTime to the endTime
+          state.currentTime +
+              (((state.daysPerTick / 60) * SECOND_IN_DAY_TIMES_TEN) %
+                (state.endTime - state.startTime)) >
+            state.endTime
           ? state.endTime
           : state.currentTime,
       };
@@ -124,6 +131,12 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
       return { ...state, loading: action.loading };
     case "SET_LOADING_PROGRESS":
       return { ...state, loading_progress: action.progress };
+    case "SET_ATTRIBUTIONS": {
+      return {
+        ...state,
+        showAttributions: action.show,
+      };
+    }
     case "SET_ERROR":
       return { ...state, error: action.error };
     default:
