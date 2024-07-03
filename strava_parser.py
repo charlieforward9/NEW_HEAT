@@ -26,7 +26,7 @@ def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, 
         print()
 
 # Removes all non-spatial activities from the activities folder that do not provide value to creating a deckGL layer
-def filter_non_spacial():
+def filter_non_relevant():
     for filename in os.listdir(DIR_ACTIVITIES):
         with open(os.path.join(DIR_ACTIVITIES, filename), 'r', encoding='utf-8', errors='ignore') as activity:
             gpx = gpxpy.parse(activity)
@@ -34,14 +34,14 @@ def filter_non_spacial():
                 os.remove(os.path.join(DIR_ACTIVITIES, filename))
             else:
                 for track in gpx.tracks:
-                    if len(track.segments) == 0:
+                    if len(track.segments) == 0 or track.type == "Sail":
                         os.remove(os.path.join(DIR_ACTIVITIES, filename))
                         break
-
+                    
 # Add all the activities into a single file that can be used to create the relevant deckGL layers, this will be a JSON file
 def gpx_to_layer(): 
     activity_layer = {}
-    existing_indexes = []
+    existing_indexes = set()  # Use a set for indexes
     i = 0
     printProgressBar(0, len(os.listdir(DIR_ACTIVITIES)), prefix = 'gpx_to_layer:', autosize = True)
     for filename in os.listdir(DIR_ACTIVITIES): 
@@ -56,7 +56,7 @@ def gpx_to_layer():
                             index = h3.geo_to_h3(point.latitude, point.longitude, 14)
                             if index in existing_indexes:
                                 continue
-                            existing_indexes.append(index)
+                            existing_indexes.add(index)
                             gpx_layer.append([point.time.timestamp(), point.longitude, point.latitude])
                 activity_layer[int(gpx.get_time_bounds().start_time.timestamp())] = gpx_layer
         i += 1
@@ -73,7 +73,7 @@ strava_conv.add_metadata_to_gpx()
 print("Metadata added")
 strava_conv.strava_fit_to_gpx()
 print("Fit converted to GPX")
-filter_non_spacial()
-print("Non-spatial activities removed")
+filter_non_relevant()
+print("Non-relevant activities removed")
 gpx_to_layer()
 print("Successfully converted to layer JSON")
