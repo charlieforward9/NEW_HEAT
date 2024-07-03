@@ -4,7 +4,7 @@ import type { RawData, TripLayer } from "./types";
 export async function fetchTripLayer(onProgress?: (progress: number) => void) {
   try {
     const response = await fetchWithProgress(
-      "https://corsproxy.io/?https://github.com/charlieforward9/NEW_HEAT/raw/feat_update/data/strava_layer.json",
+      "https://corsproxy.io/?https://github.com/charlieforward9/NEW_HEAT/raw/master/data/strava_layer.json",
       onProgress
     );
     // Snippet for local fetching when internet speeds are not ideal (will not show progress)
