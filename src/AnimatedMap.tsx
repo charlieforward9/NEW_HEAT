@@ -1,5 +1,11 @@
 import { Map as ReactGoogleMap } from "@vis.gl/react-google-maps";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { TripsLayer } from "deck.gl";
 import { DeckGlOverlay } from "./DeckGLOverlay";
 import { useNH, useNHDispatch } from "./state";
@@ -37,7 +43,12 @@ export default function AnimatedMap() {
     [tripLayer]
   );
 
-  const layers = useMemo(() => getDeckGlLayers(currentTime), [currentTime]);
+  const layers = useMemo(
+    () => getDeckGlLayers(currentTime),
+    [tripLayer, currentTime]
+  );
+
+  const deferredLayers = useDeferredValue(layers);
 
   const loop = (t: number) => {
     if (!animating) return;
@@ -45,26 +56,19 @@ export default function AnimatedMap() {
 
     const elapsedTimeRelative =
       (currentTimeRef.current - startTime) / (endTime - startTime);
-    console.log(
-      currentTimeRef.current,
-      startTime,
-      endTime,
-      elapsedTimeRelative
-    );
 
     dispatch({
       type: "SET_CAMERA_PROPS",
-      progress: elapsedTimeRelative, //Math.cos(Math.PI + 2 * Math.PI * elapsedTimeRelative) / 2 + 0.5
+      progress: elapsedTimeRelative,
     });
 
     const newTime =
       currentTimeRef.current +
       (((daysPerTick / 60) * 864000) % (endTime - startTime));
 
-    if (newTime <= endTime) {
+    if (newTime < endTime) {
       dispatch({ type: "SET_CURRENT_TIME", currentTime: newTime });
     } else {
-      dispatch({ type: "SET_CURRENT_TIME", currentTime: endTime - 1 });
       dispatch({ type: "SET_ANIMATING", animating: false });
     }
   };
@@ -104,13 +108,16 @@ export default function AnimatedMap() {
       mapId={mapConfig.mapId || null}
       mapTypeId={mapConfig.mapTypeId}
       styles={mapConfig.styles}
+      defaultCenter={cameraProps.center}
       defaultZoom={cameraProps.zoom}
       gestureHandling={"greedy"}
       disableDefaultUI={true}
       reuseMaps={true}
+      keyboardShortcuts={false}
       {...((animating || loading) && cameraProps)}
+      onTilesLoaded={() => dispatch({ type: "SET_SHOW_MAP", show: true })}
     >
-      <DeckGlOverlay layers={layers} />
+      <DeckGlOverlay layers={deferredLayers} />
     </ReactGoogleMap>
   );
 }

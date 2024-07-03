@@ -50,7 +50,7 @@ const ControlPanel: React.FC = () => {
           dispatch({ type: "SET_ANIMATING", animating: !animating });
         }}
       >
-        {animating ? "Play" : "Pause"}
+        {animating ? "Rest" : "Run it"}
       </div>
     </div>
   );

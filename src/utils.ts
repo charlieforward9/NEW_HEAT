@@ -7,6 +7,7 @@ export async function fetchTripLayer(onProgress?: (progress: number) => void) {
       "https://corsproxy.io/?https://github.com/charlieforward9/NEW_HEAT/raw/feat_update/data/strava_layer.json",
       onProgress
     );
+    // Snippet for local fetching when internet speeds are not ideal (will not show progress)
     // const response = (await import("../data/strava_layer.json")).default;
     return response as unknown as RawData;
   } catch (error) {

@@ -21,6 +21,7 @@ export type TripLayer = {
 
 export type NHActions =
   | { type: "SET_MAP_CONFIG"; value: String }
+  | { type: "SET_SHOW_MAP"; show: boolean }
   | { type: "SET_START_DATE"; startDate: Date }
   | { type: "SET_END_DATE"; endDate: Date }
   | { type: "SET_TRIP_LAYER"; rawData: RawData }
@@ -35,6 +36,7 @@ export type NHActions =
 
 export type NHState = {
   rawData: RawData | undefined;
+  showMap: boolean;
   mapConfig: MapConfig;
   layerProps: TripsLayerProps<TripLayer>;
   startDate: Date;

@@ -1,6 +1,3 @@
-import brightColorsStyles from "./map-styles/bright-colors";
-import vitaminCStyles from "./map-styles/vitamin-c";
-
 import type { MapCameraProps } from "@vis.gl/react-google-maps";
 import { Color, AccessorFunction } from "deck.gl";
 import type { TripsLayerProps } from "@deck.gl/geo-layers";
@@ -12,10 +9,12 @@ export const API_KEY =
   (process.env.GOOGLE_MAPS_API_KEY as string);
 
 export const Times = {
-  START_2020: 1577836800000,
+  START_2020: 1577880000000,
   START_2023: 1672593838000,
   END_2023: 1694139838000,
-  END_2024: 1704139838000,
+  START_2024: 1704139838000,
+  END_2024: 1725685838000,
+  FEB_2024: 1711972800000,
 };
 
 export const MapTypeId = {
@@ -26,6 +25,12 @@ export const MapTypeId = {
 };
 
 export const MAP_CONFIGS: MapConfig[] = [
+  {
+    id: "ogblack",
+    label: "Black",
+    mapId: "1ae1962daafbdd69",
+    mapTypeId: MapTypeId.ROADMAP,
+  },
   {
     id: "light",
     label: "Light",
@@ -38,18 +43,18 @@ export const MAP_CONFIGS: MapConfig[] = [
     mapId: "739af084373f96fe",
     mapTypeId: MapTypeId.ROADMAP,
   },
-  {
-    id: "styled1",
-    label: "Bright Colors",
-    mapTypeId: MapTypeId.ROADMAP,
-    styles: brightColorsStyles,
-  },
-  {
-    id: "styled2",
-    label: "Vitamin C",
-    mapTypeId: MapTypeId.ROADMAP,
-    styles: vitaminCStyles,
-  },
+  // {
+  //   id: "styled1",
+  //   label: "Bright Colors",
+  //   mapTypeId: MapTypeId.ROADMAP,
+  //   styles: brightColorsStyles,
+  // },
+  // {
+  //   id: "styled2",
+  //   label: "Vitamin C",
+  //   mapTypeId: MapTypeId.ROADMAP,
+  //   styles: vitaminCStyles,
+  // },
   {
     id: "satellite2",
     label: 'Satellite ("light" mapId)',
@@ -74,12 +79,6 @@ export const MAP_CONFIGS: MapConfig[] = [
     mapId: "5e13191437f4efb4",
     mapTypeId: MapTypeId.ROADMAP,
   },
-  {
-    id: "ogblack",
-    label: "Black",
-    mapId: "1ae1962daafbdd69",
-    mapTypeId: MapTypeId.ROADMAP,
-  },
 ];
 
 export const cameraStart: MapCameraProps = {
@@ -91,7 +90,7 @@ export const cameraStart: MapCameraProps = {
 
 export const cameraEnd: MapCameraProps = {
   center: { lat: 29.645834, lng: -82.323026 },
-  zoom: 6,
+  zoom: 6.5,
   heading: 360,
   tilt: 67.5,
 };

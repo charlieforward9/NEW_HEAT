@@ -25,12 +25,13 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 
 const initialState: NHState = {
   rawData: undefined,
-  mapConfig: MAP_CONFIGS[8],
+  showMap: false,
+  mapConfig: MAP_CONFIGS[0],
   layerProps: layerProps,
   startDate: new Date(Times.START_2020),
-  endDate: new Date(2024, 0, 1),
+  endDate: new Date(Times.FEB_2024),
   startTime: Times.START_2020 / 1000,
-  endTime: Times.END_2024 / 1000,
+  endTime: Times.FEB_2024 / 1000,
   daysPerTick: 15,
   tripLayer: [],
   cameraProps: cameraStart,
@@ -54,12 +55,18 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
           MAP_CONFIGS.find((config) => config.id === action.value) ??
           MAP_CONFIGS[0],
       };
+    case "SET_SHOW_MAP": {
+      return {
+        ...state,
+        showMap: action.show,
+      };
+    }
     case "SET_START_DATE": {
       return {
         ...state,
         startDate: action.startDate,
         startTime: action.startDate.getTime() / 1000,
-        currentTime: action.startDate.getTime(),
+        currentTime: action.startDate.getTime() / 1000,
       };
     }
     case "SET_END_DATE":
@@ -67,7 +74,7 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
         ...state,
         endDate: action.endDate,
         endTime: action.endDate.getTime() / 1000,
-        currentTime: state.startDate.getTime(),
+        currentTime: state.startDate.getTime() / 1000,
       };
     case "SET_DAYS_PER_TICK":
       return {
@@ -76,6 +83,7 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
     case "SET_TRIP_LAYER":
       return {
         ...state,
+        rawData: action.rawData,
         tripLayer: parseDataToTripLayer(
           action.rawData,
           state.startTime,
@@ -95,7 +103,7 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
         ...state,
         cameraProps: {
           ...state.cameraProps,
-          zoom: state.cameraProps.zoom + action.breath / 15,
+          zoom: state.cameraProps.zoom + action.breath / 20,
           heading: (state.cameraProps.heading ?? 0) - action.breath / 2,
           tilt: (state.cameraProps.tilt ?? 0) + action.breath / 3,
         },
@@ -106,10 +114,11 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
       return {
         ...state,
         animating: action.animating,
-        currentTime:
-          state.currentTime == state.endTime
-            ? state.startTime
-            : state.currentTime,
+        currentTime: action.animating
+          ? state.startTime
+          : Math.abs(state.endTime - state.currentTime) < 100
+          ? state.endTime
+          : state.currentTime,
       };
     case "SET_LOADING":
       return { ...state, loading: action.loading };

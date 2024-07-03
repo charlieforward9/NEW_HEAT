@@ -6,7 +6,7 @@ function LoadingPanel() {
 
   return (
     <div
-      className="loading-panel"
+      className="loading-bar"
       // @ts-ignore --loading-progress is a CSS variable
       style={{ "--loading-progress": `${loading_progress.toFixed(1)}%` }}
     >
