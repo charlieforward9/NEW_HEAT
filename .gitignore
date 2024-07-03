@@ -2,5 +2,7 @@
 node_modules
 dist
 package-lock.json
-2022*/
+data/activities
 .env
+# Million Lint
+.million

@@ -1,0 +1,398 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Rubik Mono One", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* General panel styles */
+.header-panel {
+  color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  padding: 5px;
+  box-sizing: border-box; /* Include padding in width */
+}
+
+/* Header Panel */
+.header-panel {
+  background-color: #ff7c24; /* Vivid orange color */
+  position: absolute;
+  width: 100%;
+  max-width: 100vw;
+  z-index: 1000;
+}
+
+/* Header Panel */
+.header-panel.loaded {
+  background-color: #ff6500;
+  position: absolute;
+  width: 100%;
+  max-width: 100vw;
+  z-index: 1000;
+}
+
+.header-panel.spaced .top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-panel.centered .top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.header-panel.centered h1,
+.header-panel.centered p {
+  margin: 0;
+}
+
+.header-panel.centered > .top-bar > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-panel h1 {
+  margin: 0;
+  font-size: 24px;
+  z-index: 1000;
+}
+
+.header-panel p {
+  margin: 0;
+  font-size: 12px;
+  z-index: 1000;
+}
+
+/* Top Bar */
+.top-bar {
+  padding: 5px 10px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bottom Bar */
+.bottom-bar {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Control icon */
+.control-button {
+  width: 100px;
+  display: flex; /* Center the button */
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: #ff7c24;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 0 0 10px;
+  border-radius: 5px;
+  border: 2px solid black; /* Add black border */
+}
+
+.control-button:hover {
+  background-color: #e63900; /* Darken on hover */
+}
+
+/* Time Panel */
+.time-panel,
+.loading-bar {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  margin: 0px;
+  font-weight: bold;
+  color: white; /* Text color */
+}
+
+.loading-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--loading-progress, 0%);
+  background-color: #ff6500; /* Completed color */
+  transition: width 0.2s ease; /* Smooth transition */
+}
+
+.loading-bar .loading-text {
+  position: relative;
+  z-index: 1;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 1px 10px; /* Adjust this value based on the width of the date containers */
+}
+
+.time-slider {
+  width: 100%;
+  -webkit-appearance: none; /* Override default CSS styles */
+  appearance: none;
+  height: 10px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  border-radius: 5px;
+  border: 2px solid black; /* Add black border */
+}
+
+.time-slider:hover {
+  opacity: 1;
+}
+
+.time-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff4500;
+  cursor: pointer;
+  border: 2px solid black; /* Add black border */
+}
+
+.time-slider::-moz-range-thumb {
+  width: 20px;
+  border-radius: 50%;
+  background: #ff4500;
+  cursor: pointer;
+  border: 2px solid black; /* Add black border */
+}
+
+.date-container {
+  position: relative;
+  cursor: pointer;
+  padding: 2px;
+  height: 20px;
+  width: 80px;
+  border-radius: 5px;
+  text-align: center;
+  border: 2px solid black; /* Add black border */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: #ff7c24;
+  transition: background-color 0.5s ease-in-out;
+  font-size: 10px;
+}
+
+.date-container .date-text {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.date-container .default-text {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.date-container:hover {
+  background-color: #e63900; /* Darken on hover */
+}
+
+.date-container:hover .date-text {
+  opacity: 1;
+}
+
+.date-container:hover .default-text {
+  opacity: 0;
+}
+
+.datepicker-wrapper {
+  position: absolute;
+  top: 0px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+/* React DatePicker Custom Styles */
+.react-datepicker {
+  font-family: "Rubik Mono One", monospace;
+  border: 2px solid black;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.react-datepicker__header {
+  display: none;
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__day--selected {
+  background-color: #ff7c24;
+  border-radius: 50%;
+  border: 2px solid black; /* Add black border */
+}
+
+.slider-value {
+  position: absolute;
+  top: 25px; /* Adjust as needed */
+  transform: translateX(-50%);
+  color: white;
+  padding: 2px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+  border-radius: 5px;
+  border: 2px solid black; /* Add black border */
+  background-color: #ff7c24;
+  z-index: 100;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+  background-color: #ff6500;
+  z-index: 700;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
+}
+
+/* Add fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.5s ease-in-out; /* Apply fade-in animation */
+}
+
+.modal-content {
+  background: #ff7c24; /* Vivid orange color to match existing theme */
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  margin: 20px;
+  max-width: 600px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Matching shadow */
+  color: white; /* Text color to match existing theme */
+  border: 2px solid black; /* Matching border style */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 24px; /* Matching header font size */
+  text-align: center; /* Center align header text */
+}
+
+.modal-content ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.modal-content ul li {
+  margin-bottom: 10px;
+  font-size: 14px; /* Matching body text size */
+  display: flex;
+  justify-content: space-between; /* Space between label and link */
+}
+
+.modal-content ul li span a {
+  color: white; /* Matching link color */
+  text-decoration: underline;
+}
+
+.modal-content ul li span a:hover {
+  color: #0056b3; /* Hover color for links */
+}
+
+.modal-content button {
+  background: #ff7c24;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  font-family: "Rubik Mono One", monospace; /* Matching font family */
+  border: 2px solid black; /* Matching border style */
+}
+
+.modal-content button:hover {
+  background: #ff4500;
+}
