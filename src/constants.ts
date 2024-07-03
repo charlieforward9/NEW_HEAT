@@ -17,6 +17,9 @@ export const Times = {
   FEB_2024: 1711972800000,
 };
 
+//This just works for my use case, you may need to adjust this value for the most accurate results (linked to ticksPerDay, which is also not accurate)
+export const SECOND_IN_DAY_TIMES_TEN = 864000;
+
 export const MapTypeId = {
   HYBRID: "hybrid",
   ROADMAP: "roadmap",

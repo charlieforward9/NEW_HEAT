@@ -9,6 +9,7 @@ import {
 import { TripsLayer } from "deck.gl";
 import { DeckGlOverlay } from "./DeckGLOverlay";
 import { useNH, useNHDispatch } from "./state";
+import { SECOND_IN_DAY_TIMES_TEN } from "./constants";
 
 export default function AnimatedMap() {
   const dispatch = useNHDispatch();
@@ -64,7 +65,7 @@ export default function AnimatedMap() {
 
     const newTime =
       currentTimeRef.current +
-      (((daysPerTick / 60) * 864000) % (endTime - startTime));
+      (((daysPerTick / 60) * SECOND_IN_DAY_TIMES_TEN) % (endTime - startTime));
 
     if (newTime < endTime) {
       dispatch({ type: "SET_CURRENT_TIME", currentTime: newTime });
