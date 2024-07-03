@@ -4,13 +4,12 @@ import { useNHDispatch } from "./state";
 const AttributionsModal: React.FC = () => {
   const dispatch = useNHDispatch();
 
-  const onClick = () => {
-    dispatch({ type: "SET_ATTRIBUTIONS", show: false });
-  };
-
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div
+      className="modal-overlay"
+      onClick={() => dispatch({ type: "SET_ATTRIBUTIONS", show: false })}
+    >
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>Attributions</h2>
         <ul>
           <li>
@@ -178,7 +177,6 @@ const AttributionsModal: React.FC = () => {
             </span>
           </li>
         </ul>
-        <button onClick={onClick}>Thank You</button>
       </div>
     </div>
   );

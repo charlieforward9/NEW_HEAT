@@ -59,14 +59,14 @@ const ControlPanel: React.FC = () => {
       >
         {animating ? "Rest" : "Run it"}
       </div>
-      {/* <div
+      <div
         className="control-button"
         onClick={() => {
           dispatch({ type: "SET_ATTRIBUTIONS", show: !showAttributions });
         }}
       >
-        Creds
-      </div> */}
+        Credits
+      </div>
       {showAttributions && <AttributionsModal />}
     </div>
   );
