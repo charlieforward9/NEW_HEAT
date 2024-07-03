@@ -1,23 +1,14 @@
-import React, { useState } from "react";
-import "./styles.css";
+import React from "react";
+import { useNH } from "./state";
 import ControlPanel from "./ControlPanel";
 
 const HeaderPanel: React.FC = () => {
-  const [isControlPanelVisible, setControlPanelVisible] = useState(false);
-
-  const toggleControlPanel = () => {
-    setControlPanelVisible(!isControlPanelVisible);
-  };
+  const { loading } = useNH();
 
   return (
     <div className="header-panel">
       <h1>NEW HEAT</h1>
-      <div>
-        <div className="control-icon" onClick={toggleControlPanel}>
-          <div>Controls</div>
-        </div>
-        {isControlPanelVisible && <ControlPanel />}
-      </div>
+      {!loading && <ControlPanel />}
     </div>
   );
 };

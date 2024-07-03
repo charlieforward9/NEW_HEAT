@@ -26,14 +26,16 @@ export type NHActions =
   | { type: "SET_TRIP_LAYER"; rawData: RawData }
   | { type: "SET_DAYS_PER_TICK"; daysPerTick: number }
   | { type: "SET_CAMERA_PROPS"; progress: number }
-  | { type: "SET_T0"; t0: number }
   | { type: "SET_CURRENT_TIME"; currentTime: number }
-  | { type: "SET_LOADING"; loading: boolean };
+  | { type: "SET_MAP_BREATHING"; breath: number }
+  | { type: "SET_ANIMATING"; animating: boolean }
+  | { type: "SET_LOADING"; loading: boolean }
+  | { type: "SET_LOADING_PROGRESS"; progress: number }
+  | { type: "SET_ERROR"; error: string };
 
 export type NHState = {
   rawData: RawData | undefined;
   mapConfig: MapConfig;
-  animationDuration: number;
   layerProps: TripsLayerProps<TripLayer>;
   startDate: Date;
   endDate: Date;
@@ -42,7 +44,9 @@ export type NHState = {
   daysPerTick: number;
   tripLayer: TripLayer[];
   cameraProps: MapCameraProps;
-  t0: number;
   currentTime: number;
+  animating: boolean;
   loading: boolean;
+  loading_progress: number;
+  error?: string;
 };

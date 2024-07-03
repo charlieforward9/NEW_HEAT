@@ -8,19 +8,15 @@ import React, {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNH, useNHDispatch } from "./state";
-import "./styles.css";
+
+const formatter = new Intl.DateTimeFormat("default", {
+  month: "long",
+  year: "numeric",
+});
 
 function TimePanel() {
-  const { loading, currentTime, startTime, endTime } = useNH();
+  const { currentTime, startTime, endTime, startDate, endDate } = useNH();
   const dispatch = useNHDispatch();
-  const formatter = useMemo(
-    () =>
-      new Intl.DateTimeFormat("default", {
-        month: "long",
-        year: "numeric",
-      }),
-    []
-  );
 
   const [isStartPickerOpen, setStartPickerOpen] = useState(false);
   const [isEndPickerOpen, setEndPickerOpen] = useState(false);
@@ -88,16 +84,17 @@ function TimePanel() {
         <div
           className="date-container"
           onClick={() => setStartPickerOpen(!isStartPickerOpen)}
+          data-date={`${formatter.format(startDate)}`}
         >
-          {formatter.format(new Date(startTime * 1000))}
+          {"Start"}
           {isStartPickerOpen && (
             <div className="datepicker-wrapper">
               <DatePicker
-                selected={new Date(startTime * 1000)}
+                selected={startDate}
                 onChange={onStartDateChange}
                 selectsStart
-                startDate={new Date(startTime * 1000)}
-                endDate={new Date(endTime * 1000)}
+                startDate={startDate}
+                endDate={endDate}
                 dateFormat="yyyy/MM/dd"
                 showMonthYearPicker
                 inline
@@ -127,17 +124,18 @@ function TimePanel() {
         <div
           className="date-container"
           onClick={() => setEndPickerOpen(!isEndPickerOpen)}
+          data-date={`${formatter.format(endDate)}`}
         >
-          {formatter.format(new Date(endTime * 1000))}
+          {"End"}
           {isEndPickerOpen && (
             <div className="datepicker-wrapper">
               <DatePicker
-                selected={new Date(endTime * 1000)}
+                selected={endDate}
                 onChange={onEndDateChange}
                 selectsEnd
-                startDate={new Date(startTime * 1000)}
-                endDate={new Date(endTime * 1000)}
-                minDate={new Date(startTime * 1000)}
+                startDate={startDate}
+                endDate={endDate}
+                minDate={startDate}
                 dateFormat="yyyy/MM/dd"
                 showMonthYearPicker
                 inline

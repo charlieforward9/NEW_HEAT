@@ -10,14 +10,13 @@ export const API_KEY =
   import.meta.env.VITE_GOOGLE_MAPS_API_KEY ??
   globalThis.GOOGLE_MAPS_API_KEY ??
   (process.env.GOOGLE_MAPS_API_KEY as string);
+
 export const Times = {
   START_2020: 1577836800000,
   START_2023: 1672593838000,
   END_2023: 1694139838000,
   END_2024: 1704139838000,
 };
-
-export const defaultCenter = { lat: 29.645834, lng: -82.323026 };
 
 export const MapTypeId = {
   HYBRID: "hybrid",
@@ -71,28 +70,28 @@ export const MAP_CONFIGS: MapConfig[] = [
   },
   {
     id: "ogwhite",
-    label: "white with buildings",
+    label: "White",
     mapId: "5e13191437f4efb4",
     mapTypeId: MapTypeId.ROADMAP,
   },
   {
     id: "ogblack",
-    label: "black without buildings",
-    mapId: "4f6dde3310be51d7",
+    label: "Black",
+    mapId: "1ae1962daafbdd69",
     mapTypeId: MapTypeId.ROADMAP,
   },
 ];
 
 export const cameraStart: MapCameraProps = {
   center: { lat: 29.645834, lng: -82.353026 },
-  zoom: 15,
+  zoom: 16,
   heading: 331,
-  tilt: 67.5,
+  tilt: 57.5,
 };
 
 export const cameraEnd: MapCameraProps = {
   center: { lat: 29.645834, lng: -82.323026 },
-  zoom: 7,
+  zoom: 6,
   heading: 360,
   tilt: 67.5,
 };

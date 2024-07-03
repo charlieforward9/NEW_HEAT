@@ -1,17 +1,8 @@
 import { Map as ReactGoogleMap } from "@vis.gl/react-google-maps";
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { DeckGlOverlay } from "./DeckGLOverlay";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { TripsLayer } from "deck.gl";
-
+import { DeckGlOverlay } from "./DeckGLOverlay";
 import { useNH, useNHDispatch } from "./state";
-import { defaultCenter } from "./constants";
 
 export default function AnimatedMap() {
   const dispatch = useNHDispatch();
@@ -19,18 +10,18 @@ export default function AnimatedMap() {
     rawData,
     mapConfig,
     layerProps,
-    animationDuration,
     startTime,
     endTime,
     daysPerTick,
     tripLayer,
     cameraProps,
-    t0,
     currentTime,
+    animating,
     loading,
   } = useNH();
 
-  const rafId = useRef<number>();
+  const rafIdRef = useRef<number>();
+  const currentTimeRef = useRef(currentTime);
 
   const getDeckGlLayers = useCallback(
     (t: number) => {
@@ -48,65 +39,76 @@ export default function AnimatedMap() {
 
   const layers = useMemo(() => getDeckGlLayers(currentTime), [currentTime]);
 
-  const loop = useCallback((t: number) => {
-    if (t0 === 0) {
-      dispatch({ type: "SET_T0", t0: t });
-    }
-    rafId.current = requestAnimationFrame(loop);
+  const loop = (t: number) => {
+    if (!animating) return;
+    rafIdRef.current = requestAnimationFrame(loop);
 
-    const elapsedTimeRelative = (t - t0) / animationDuration;
-    dispatch({
-      type: "SET_CAMERA_PROPS",
-      progress: Math.cos(Math.PI + 2 * Math.PI * elapsedTimeRelative) / 2 + 0.5,
-    });
-
-    const elapsedSeconds = Number(
-      ((t - t0 / 1000) * (daysPerTick * 86.4)).toFixed(0)
+    const elapsedTimeRelative =
+      (currentTimeRef.current - startTime) / (endTime - startTime);
+    console.log(
+      currentTimeRef.current,
+      startTime,
+      endTime,
+      elapsedTimeRelative
     );
 
-    const newTime = startTime + (elapsedSeconds % (endTime - startTime));
+    dispatch({
+      type: "SET_CAMERA_PROPS",
+      progress: elapsedTimeRelative, //Math.cos(Math.PI + 2 * Math.PI * elapsedTimeRelative) / 2 + 0.5
+    });
 
-    if (newTime < endTime) {
+    const newTime =
+      currentTimeRef.current +
+      (((daysPerTick / 60) * 864000) % (endTime - startTime));
+
+    if (newTime <= endTime) {
       dispatch({ type: "SET_CURRENT_TIME", currentTime: newTime });
     } else {
-      //Reset
-      dispatch({ type: "SET_T0", t0: performance.now() });
-      dispatch({ type: "SET_CURRENT_TIME", currentTime: startTime });
+      dispatch({ type: "SET_CURRENT_TIME", currentTime: endTime - 1 });
+      dispatch({ type: "SET_ANIMATING", animating: false });
     }
-  }, []);
+  };
 
   useEffect(() => {
-    dispatch({ type: "SET_T0", t0: performance.now() });
+    currentTimeRef.current = currentTime; // Keep the ref updated
+  }, [currentTime]);
+
+  useEffect(() => {
     dispatch({ type: "SET_CURRENT_TIME", currentTime: startTime });
-    dispatch({ type: "SET_TRIP_LAYER", rawData: rawData ?? {} });
+    rawData && dispatch({ type: "SET_TRIP_LAYER", rawData: rawData });
   }, [rawData, startTime, endTime, daysPerTick]);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch({ type: "SET_LOADING", loading: false });
-    }, 2000);
-  }, [tripLayer]);
+    if (loading || !animating) cancelAnimationFrame(rafIdRef.current ?? 0);
+    rafIdRef.current = requestAnimationFrame((t) => loop(currentTime));
+    return () => {
+      cancelAnimationFrame(rafIdRef.current ?? 0);
+    };
+  }, [animating, daysPerTick, startTime, endTime, loading]);
 
   useEffect(() => {
-    dispatch({ type: "SET_CURRENT_TIME", currentTime: startTime });
-    if (loading) return;
-    let rafId = requestAnimationFrame(loop);
-    return () => {
-      cancelAnimationFrame(rafId);
-    };
-  }, [daysPerTick, startTime, endTime, loading]);
+    if (loading && !animating) {
+      const zoomInterval = setInterval(() => {
+        dispatch({
+          type: "SET_MAP_BREATHING",
+          breath: Math.sin(Date.now() / 1000),
+        });
+      }, 100); // Change zoom level every millisecond
+
+      return () => clearInterval(zoomInterval); // Clear interval on component unmount
+    }
+  }, [animating]);
 
   return (
     <ReactGoogleMap
       mapId={mapConfig.mapId || null}
       mapTypeId={mapConfig.mapTypeId}
       styles={mapConfig.styles}
-      defaultCenter={defaultCenter}
-      defaultZoom={11}
+      defaultZoom={cameraProps.zoom}
       gestureHandling={"greedy"}
       disableDefaultUI={true}
       reuseMaps={true}
-      {...cameraProps}
+      {...((animating || loading) && cameraProps)}
     >
       <DeckGlOverlay layers={layers} />
     </ReactGoogleMap>

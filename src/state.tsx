@@ -5,8 +5,6 @@ import {
   useEffect,
   useMemo,
   useReducer,
-  useRef,
-  useState,
 } from "react";
 import {
   fetchTripLayer,
@@ -14,7 +12,7 @@ import {
   parseDataToTripLayer,
 } from "./utils";
 
-import type { NHActions, NHState, RawData } from "./types";
+import type { NHActions, NHState } from "./types";
 import {
   API_KEY,
   cameraEnd,
@@ -27,19 +25,19 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 
 const initialState: NHState = {
   rawData: undefined,
-  mapConfig: MAP_CONFIGS[0],
-  animationDuration: 90000,
+  mapConfig: MAP_CONFIGS[8],
   layerProps: layerProps,
   startDate: new Date(Times.START_2020),
   endDate: new Date(2024, 0, 1),
   startTime: Times.START_2020 / 1000,
   endTime: Times.END_2024 / 1000,
-  daysPerTick: 33,
+  daysPerTick: 15,
   tripLayer: [],
   cameraProps: cameraStart,
-  t0: 0,
   currentTime: 0,
+  animating: false,
   loading: true,
+  loading_progress: 0,
 };
 
 export const NHContext = createContext<NHState>(initialState);
@@ -83,24 +81,42 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
           state.startTime,
           state.endTime
         ),
+        loading: false,
         cameraProps: cameraStart,
-        t0: performance.now(),
         currentTime: state.startTime,
-      };
-    case "SET_T0":
-      return {
-        ...state,
-        t0: action.t0,
       };
     case "SET_CAMERA_PROPS":
       return {
         ...state,
         cameraProps: interpolateCamera(cameraStart, cameraEnd, action.progress),
       };
+    case "SET_MAP_BREATHING":
+      return {
+        ...state,
+        cameraProps: {
+          ...state.cameraProps,
+          zoom: state.cameraProps.zoom + action.breath / 15,
+          heading: (state.cameraProps.heading ?? 0) - action.breath / 2,
+          tilt: (state.cameraProps.tilt ?? 0) + action.breath / 3,
+        },
+      };
     case "SET_CURRENT_TIME":
       return { ...state, currentTime: action.currentTime };
+    case "SET_ANIMATING":
+      return {
+        ...state,
+        animating: action.animating,
+        currentTime:
+          state.currentTime == state.endTime
+            ? state.startTime
+            : state.currentTime,
+      };
     case "SET_LOADING":
       return { ...state, loading: action.loading };
+    case "SET_LOADING_PROGRESS":
+      return { ...state, loading_progress: action.progress };
+    case "SET_ERROR":
+      return { ...state, error: action.error };
     default:
       return state;
   }
@@ -108,19 +124,25 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
 
 export function NHProvider({ children }) {
   const [context, dispatch] = useReducer(NHReducer, initialState);
-  const [rawData, setRawData] = useState<RawData | undefined>(undefined);
 
   const memoizedDispatch = useMemo(() => dispatch, []);
 
   useEffect(() => {
-    fetchTripLayer().then((data) => {
-      setRawData(data);
-    });
+    fetchTripLayer((progress) =>
+      dispatch({ type: "SET_LOADING_PROGRESS", progress: progress })
+    )
+      .then((data) => {
+        if (data) dispatch({ type: "SET_TRIP_LAYER", rawData: data });
+        else throw "No data found.";
+      })
+      .catch((error) => {
+        dispatch({ type: "SET_ERROR", error: `${error}` });
+      });
   }, []);
 
   return (
     <APIProvider apiKey={API_KEY}>
-      <NHContext.Provider value={{ ...context, rawData: rawData }}>
+      <NHContext.Provider value={context}>
         <NHDispatchContext.Provider value={memoizedDispatch}>
           {children}
         </NHDispatchContext.Provider>
