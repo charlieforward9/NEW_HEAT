@@ -12,11 +12,5 @@ export default defineConfig(({ mode }) => {
         VITE_GOOGLE_MAPS_API_KEY
       ),
     },
-    resolve: {
-      alias: {
-        "@vis.gl/react-google-maps/examples.js":
-          "https://visgl.github.io/react-google-maps/scripts/examples.js",
-      },
-    },
   };
 });
