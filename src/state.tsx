@@ -113,16 +113,18 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
     case "SET_CURRENT_TIME":
       return { ...state, currentTime: action.currentTime };
     case "SET_ANIMATING":
+      const next =
+        state.currentTime +
+        (((state.daysPerTick / 60) * SECOND_IN_DAY_TIMES_TEN) %
+          (state.endTime - state.startTime));
       return {
         ...state,
         animating: action.animating,
         currentTime: action.animating
-          ? state.startTime
-          : //If the next time will exceed the endTime, set the currentTime to the endTime
-          state.currentTime +
-              (((state.daysPerTick / 60) * SECOND_IN_DAY_TIMES_TEN) %
-                (state.endTime - state.startTime)) >
-            state.endTime
+          ? next > state.endTime
+            ? state.startTime
+            : state.currentTime
+          : next > state.endTime
           ? state.endTime
           : state.currentTime,
       };
