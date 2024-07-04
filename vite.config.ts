@@ -1,5 +1,4 @@
 import { defineConfig, loadEnv } from "vite";
-import MillionLint from "@million/lint";
 import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig(({ mode }) => {
@@ -7,7 +6,7 @@ export default defineConfig(({ mode }) => {
   const { VITE_MAP_KEY = "" } = env;
 
   return {
-    plugins: [MillionLint.vite(), react()],
+    plugins: [react()],
     define: {
       "process.env": process.env ?? {},
       "process.env.GOOGLE_MAPS_API_KEY": JSON.stringify(VITE_MAP_KEY),
