@@ -17,7 +17,6 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@million/lint": "^1.0.0-rc.76",
     "@types/bootstrap": "^5.2.10",
     "@types/google.maps": "^3.55.10",
     "@types/jquery": "^3.5.30",
