@@ -11,7 +11,7 @@ const CreditsModal: React.FC = () => {
     >
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>Credits</h2>
-        <p>Built on the shoulders of giants</p>
+        <p>Standing on shoulders of giants</p>
         <ul>
           <li>
             <strong>Dreamt by</strong>

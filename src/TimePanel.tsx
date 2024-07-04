@@ -11,7 +11,8 @@ const formatter = new Intl.DateTimeFormat("default", {
 });
 
 function TimePanel() {
-  const { currentTime, startTime, endTime, startDate, endDate } = useNH();
+  const { currentTime, startTime, endTime, startDate, endDate, animating } =
+    useNH();
   const dispatch = useNHDispatch();
 
   const [isStartPickerOpen, setStartPickerOpen] = useState(false);
@@ -111,14 +112,16 @@ function TimePanel() {
             onChange={handleSliderChange}
             className="time-slider"
           />
-          <div
-            className="slider-value"
-            style={{
-              left: `calc(${sliderPosition}% )`,
-            }}
-          >
-            {formatter.format(new Date(currentTime * 1000))}
-          </div>
+          {(animating || startTime != currentTime) && (
+            <div
+              className="slider-value"
+              style={{
+                left: `calc(${sliderPosition}% )`,
+              }}
+            >
+              {formatter.format(new Date(currentTime * 1000))}
+            </div>
+          )}
         </div>
         <div
           className="date-container"

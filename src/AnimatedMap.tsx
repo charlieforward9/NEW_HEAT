@@ -115,6 +115,7 @@ export default function AnimatedMap() {
       disableDefaultUI={true}
       reuseMaps={true}
       keyboardShortcuts={false}
+      clickableIcons={false}
       {...((animating || loading) && cameraProps)}
       onTilesLoaded={() => dispatch({ type: "SET_SHOW_MAP", show: true })}
     >

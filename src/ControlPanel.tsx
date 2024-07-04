@@ -57,7 +57,7 @@ const ControlPanel: React.FC = () => {
           dispatch({ type: "SET_ANIMATING", animating: !animating });
         }}
       >
-        {animating ? "Rest" : "Run it"}
+        {animating ? "Rest" : "Run"}
       </div>
       <div
         className="control-button"
@@ -65,7 +65,7 @@ const ControlPanel: React.FC = () => {
           dispatch({ type: "SET_CREDITS", show: !showCredits });
         }}
       >
-        Credits
+        Creds
       </div>
       {showCredits && <CreditsModal />}
     </div>
