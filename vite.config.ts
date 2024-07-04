@@ -9,7 +9,16 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [MillionLint.vite(), react()],
     define: {
+      "process.env": process.env ?? {},
       "process.env.GOOGLE_MAPS_API_KEY": JSON.stringify(VITE_MAP_KEY),
+    },
+    build: {
+      target: "es2020",
+    },
+    optimizeDeps: {
+      esbuildOptions: {
+        target: "es2020",
+      },
     },
   };
 });

@@ -18,6 +18,7 @@
   <body>
     <div id="app"></div>
     <script type="module">
+      window.global = window;
       import { renderToDom } from "./src/App";
 
       renderToDom(document.querySelector("#app"));
