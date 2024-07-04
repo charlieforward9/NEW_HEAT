@@ -27,14 +27,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Save environment variables
-        # Save the variables into the .env file
-        run: echo "VITE_MAP_KEY=${{ secrets.VITE_MAP_KEY }}" >> .env
-
-      - name: Test environment variables
-        # Test if the variables were being stored
-        run: cat .env
-
       - name: Build project
         run: npm run build
         env:
