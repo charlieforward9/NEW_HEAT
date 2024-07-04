@@ -113,7 +113,6 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
     case "SET_CURRENT_TIME":
       return { ...state, currentTime: action.currentTime };
     case "SET_ANIMATING":
-      console.log(state.endTime, state.currentTime);
       return {
         ...state,
         animating: action.animating,
