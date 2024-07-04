@@ -162,6 +162,8 @@ export function NHProvider({ children }) {
       });
   }, []);
 
+  console.log("API KEY: ", API_KEY);
+
   return (
     <APIProvider apiKey={API_KEY}>
       <NHContext.Provider value={context}>
