@@ -32,7 +32,7 @@ export type NHActions =
   | { type: "SET_ANIMATING"; animating: boolean }
   | { type: "SET_LOADING"; loading: boolean }
   | { type: "SET_LOADING_PROGRESS"; progress: number }
-  | { type: "SET_ATTRIBUTIONS"; show: boolean }
+  | { type: "SET_CREDITS"; show: boolean }
   | { type: "SET_ERROR"; error: string };
 
 export type NHState = {
@@ -51,6 +51,6 @@ export type NHState = {
   animating: boolean;
   loading: boolean;
   loading_progress: number;
-  showAttributions: boolean;
+  showCredits: boolean;
   error?: string;
 };

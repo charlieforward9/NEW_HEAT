@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNH, useNHDispatch } from "./state";
 import "./styles.css";
-import AttributionsModal from "./AttributionsModal";
+import CreditsModal from "./CreditsModal";
 
 const ControlPanel: React.FC = () => {
   const dispatch = useNHDispatch();
-  const { currentTime, endTime, animating, showAttributions } = useNH();
+  const { currentTime, endTime, animating, showCredits } = useNH();
 
   // const onMapConfigChange = useCallback(
   //   (ev: React.ChangeEvent<HTMLSelectElement>) => {
@@ -27,7 +27,7 @@ const ControlPanel: React.FC = () => {
 
   useEffect(() => {
     if (!animating && Math.abs(currentTime - endTime) < 100) {
-      dispatch({ type: "SET_ATTRIBUTIONS", show: true });
+      dispatch({ type: "SET_CREDITS", show: true });
     }
   }, [currentTime, animating]);
 
@@ -62,12 +62,12 @@ const ControlPanel: React.FC = () => {
       <div
         className="control-button"
         onClick={() => {
-          dispatch({ type: "SET_ATTRIBUTIONS", show: !showAttributions });
+          dispatch({ type: "SET_CREDITS", show: !showCredits });
         }}
       >
         Credits
       </div>
-      {showAttributions && <AttributionsModal />}
+      {showCredits && <CreditsModal />}
     </div>
   );
 };

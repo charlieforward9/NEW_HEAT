@@ -40,7 +40,7 @@ const initialState: NHState = {
   animating: false,
   loading: true,
   loading_progress: 0,
-  showAttributions: false,
+  showCredits: false,
 };
 
 export const NHContext = createContext<NHState>(initialState);
@@ -130,10 +130,10 @@ export function NHReducer(state: NHState, action: NHActions): NHState {
       return { ...state, loading: action.loading };
     case "SET_LOADING_PROGRESS":
       return { ...state, loading_progress: action.progress };
-    case "SET_ATTRIBUTIONS": {
+    case "SET_CREDITS": {
       return {
         ...state,
-        showAttributions: action.show,
+        showCredits: action.show,
       };
     }
     case "SET_ERROR":

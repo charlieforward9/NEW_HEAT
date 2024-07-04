@@ -1,16 +1,17 @@
 import React from "react";
 import { useNHDispatch } from "./state";
 
-const AttributionsModal: React.FC = () => {
+const CreditsModal: React.FC = () => {
   const dispatch = useNHDispatch();
 
   return (
     <div
       className="modal-overlay"
-      onClick={() => dispatch({ type: "SET_ATTRIBUTIONS", show: false })}
+      onClick={() => dispatch({ type: "SET_CREDITS", show: false })}
     >
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>Attributions</h2>
+        <h2>Credits</h2>
+        <p>Built on the shoulders of giants</p>
         <ul>
           <li>
             <strong>Dreamt by</strong>
@@ -182,4 +183,4 @@ const AttributionsModal: React.FC = () => {
   );
 };
 
-export default AttributionsModal;
+export default CreditsModal;
