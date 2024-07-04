@@ -5,7 +5,7 @@ const LoadingOverlay: React.FC = () => {
   const { showMap } = useNH();
   return (
     <div className={`loading-overlay ${!showMap ? "visible" : "hidden"}`}>
-      I Dreamt It
+      Dreamt It
     </div>
   );
 };
