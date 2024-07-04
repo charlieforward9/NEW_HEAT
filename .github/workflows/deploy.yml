@@ -29,8 +29,8 @@ jobs:
 
       - name: Save environment variables
         # Save the variables into the .env file
-        run: echo "VITE_MAP_KEY=${{ env.VITE_MAP_KEY }}" >> .env.prod
-          echo "VITE_MAP_KEY=${{ env.VITE_MAP_KEY }}" >> .env
+        run: echo "VITE_MAP_KEY=${{ secrets.VITE_MAP_KEY }}" >> .env.prod
+          echo "VITE_MAP_KEY=${{ vars.VITE_MAP_KEY }}" >> .env
 
       - name: Test environment variables
         # Test if the variables were being stored
