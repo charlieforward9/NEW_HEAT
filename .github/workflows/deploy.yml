@@ -28,12 +28,12 @@ jobs:
         run: npm install
 
       - name: Save environment variables
-        # Save the variables into the .env.production file
+        # Save the variables into the .env file
         run: echo "VITE_MAP_KEY=${{ secrets.VITE_MAP_KEY }}" >> .env
 
       - name: Test environment variables
         # Test if the variables were being stored
-        run: cat environment/.env.production
+        run: cat .env
 
       - name: Build project
         run: npm run build

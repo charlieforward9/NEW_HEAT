@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => {
       "process.env": process.env ?? {},
       "process.env.GOOGLE_MAPS_API_KEY": JSON.stringify(VITE_MAP_KEY),
     },
+    envDir: "./",
     build: {
       target: "es2020",
     },
