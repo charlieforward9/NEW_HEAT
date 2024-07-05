@@ -99,7 +99,7 @@ body {
 
 /* Control icon */
 .control-button {
-  width: 80px;
+  width: 70px;
   display: flex; /* Center the button */
   align-items: center;
   justify-content: center;
