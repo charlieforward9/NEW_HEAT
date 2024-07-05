@@ -9,7 +9,8 @@ export const API_KEY =
   (process.env.VITE_MAP_KEY as string);
 
 export const Times = {
-  START_2020: 1577880000000,
+  START_2020: 1578000000000,
+  START_2021: 1609459200000,
   START_2023: 1672593838000,
   END_2023: 1694139838000,
   START_2024: 1704139838000,
@@ -19,6 +20,7 @@ export const Times = {
 
 //This just works for my use case, you may need to adjust this value for the most accurate results (linked to ticksPerDay, which is also not accurate)
 export const SECOND_IN_DAY_TIMES_TEN = 864000;
+export const ONE_YEAR_IN_MS = 31557600000;
 
 export const MapTypeId = {
   HYBRID: "hybrid",

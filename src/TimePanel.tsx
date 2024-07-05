@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { useNH, useNHDispatch } from "./state";
-import { Times } from "./constants";
+import { ONE_YEAR_IN_MS, Times } from "./constants";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -75,6 +75,7 @@ function TimePanel() {
     [dispatch]
   );
 
+  console.log(new Date(startDate.getTime() + ONE_YEAR_IN_MS));
   return (
     <div className="time-panel">
       <div className="slider-container">
@@ -96,7 +97,7 @@ function TimePanel() {
                 startDate={startDate}
                 endDate={endDate}
                 minDate={new Date(Times.START_2020)}
-                maxDate={endDate}
+                maxDate={new Date(endDate.getTime() - ONE_YEAR_IN_MS)}
                 onChange={onStartDateChange}
               />
             </div>
@@ -140,7 +141,7 @@ function TimePanel() {
                 selected={endDate}
                 startDate={startDate}
                 endDate={endDate}
-                minDate={startDate}
+                minDate={new Date(startDate.getTime() + ONE_YEAR_IN_MS)}
                 maxDate={new Date(Times.FEB_2024)}
                 onChange={onEndDateChange}
               />
