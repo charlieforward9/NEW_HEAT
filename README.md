@@ -1,4 +1,4 @@
-# 2022 Animated Heatmap
+# NEW HEAT
 
 <img width="1172" alt="A screenshot of " src="assets/snippet.png">
 
