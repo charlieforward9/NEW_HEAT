@@ -1,6 +1,6 @@
 {
   "name": "new-heat",
-  "description": "Animating geospacial data with Google Maps and Deck.gl",
+  "description": "Discovering more of the map",
   "version": "0.1.0",
   "private": true,
   "type": "module",
