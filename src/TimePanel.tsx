@@ -65,6 +65,11 @@ function TimePanel() {
   const onEndDateChange = useCallback(
     (date: Date | null) => {
       if (date) {
+        //if the date is 2024, then set to 1714535810000
+        console.log(date.getTime());
+        if (date.getTime() === Times.START_2024) {
+          date = new Date(Times.MAY_2024);
+        }
         dispatch({
           type: "SET_END_DATE",
           endDate: date,

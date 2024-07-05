@@ -13,9 +13,10 @@ export const Times = {
   START_2021: 1609459200000,
   START_2023: 1672593838000,
   END_2023: 1694139838000,
-  START_2024: 1704139838000,
-  END_2024: 1725685838000,
+  START_2024: 1704114000000,
   FEB_2024: 1711972800000,
+  MAY_2024: 1714535810000,
+  END_2024: 1725685838000,
 };
 
 //This just works for my use case, you may need to adjust this value for the most accurate results (linked to ticksPerDay, which is also not accurate)
