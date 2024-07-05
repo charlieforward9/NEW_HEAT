@@ -2,6 +2,8 @@
 
 <img width="1172" alt="A screenshot of " src="assets/snippet.png">
 
+[Demo Video](https://www.instagram.com/p/C9C47Zhs2Af/)
+
 ## Enjoy
 
 - **Dreamt by:** [Me](https://github.com/charlieforward9)
