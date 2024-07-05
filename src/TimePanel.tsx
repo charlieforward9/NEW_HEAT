@@ -75,7 +75,6 @@ function TimePanel() {
     [dispatch]
   );
 
-  console.log(new Date(startDate.getTime() + ONE_YEAR_IN_MS));
   return (
     <div className="time-panel">
       <div className="slider-container">
