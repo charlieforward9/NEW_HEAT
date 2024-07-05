@@ -51,6 +51,9 @@ jobs:
           name: production-files
           path: ./dist
 
+      - name: Create CNAME file
+        run: echo 'newheat.co' > ./dist/CNAME
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
