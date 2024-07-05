@@ -10,7 +10,7 @@ function LoadingPanel() {
       // @ts-ignore --loading-progress is a CSS variable
       style={{ "--loading-progress": `${loading_progress.toFixed(1)}%` }}
     >
-      <span className="loading-text">{`Heatin' up.. ${loading_progress.toFixed(
+      <span className="loading-text">{`Warmin' up.. ${loading_progress.toFixed(
         2
       )}%`}</span>
     </div>
