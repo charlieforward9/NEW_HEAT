@@ -33,7 +33,7 @@ const initialState: NHState = {
   endDate: new Date(Times.FEB_2024),
   startTime: Times.START_2020 / 1000,
   endTime: Times.FEB_2024 / 1000,
-  daysPerTick: 15,
+  daysPerTick: 16.5, //This is what lines up with the song of choice (https://youtu.be/yblfMrUeiP4?t=248)
   tripLayer: [],
   cameraProps: cameraStart,
   currentTime: 0,
