@@ -334,10 +334,20 @@ body {
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   z-index: 1000;
   animation: fadeIn 0.5s ease-in-out; /* Apply fade-in animation */
+}
+
+/* Add slide-left animation */
+@keyframes slideLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .modal-content {
@@ -354,6 +364,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  animation: slideLeft 0.5s ease-in-out; /* Apply slide-left animation */
 }
 
 .modal-content h2 {
