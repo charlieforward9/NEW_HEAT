@@ -1,8 +1,19 @@
 # 2022 Animated Heatmap
-<img width="1172" alt="Screen Shot 2023-04-12 at 5 38 04 PM" src="https://user-images.githubusercontent.com/62311337/231591657-76b2f6cf-e0bc-4d05-a049-1bb0b0c350e3.png">
 
-A longer-than-expected project I took on of making a cool animation of all the human powered trips I have taken in 2022
+<img width="1172" alt="A screenshot of " src="assets/snippet.png">
 
 ## Enjoy
 
-Build by Charbo using Google Maps API, Deck.GL, Vite, Github Pages, and a bunch of Python file parsing libraries
+- **Dreamt by:** [Me](https://github.com/charlieforward9)
+- **Collected with:** [Garmin](https://www.garmin.com) / [Strava](https://www.strava.com/athletes/45046621)
+- **Persisted with:** [Strava](https://www.strava.com/athletes/45046621)
+- **Processed in:** [Python](https://www.python.org)
+- **Filtered with:** [H3](https://h3geo.org)
+- **Built in:** [TypeScript](https://www.typescriptlang.org)
+- **Framed with:** [React](https://reactjs.org)
+- **Mapped with:** [Google Maps](https://maps.google.com)
+- **Interleaved with:** [DeckGL](https://deck.gl)
+- **Optimized with:** [Million](https://million.dev)
+- **Bundled with:** [Vite](https://vitejs.dev)
+- **Hosted with:** [GitHub Pages](https://pages.github.com)
+- **Versioned with:** [GitHub](https://github.com/charlieforward9/NEW_HEAT)

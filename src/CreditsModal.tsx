@@ -37,7 +37,7 @@ const CreditsModal: React.FC = () => {
               </a>
               /
               <a
-                href="https://www.strava.com"
+                href="https://www.strava.com/athletes/45046621"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -49,7 +49,7 @@ const CreditsModal: React.FC = () => {
             <strong>Persisted with</strong>
             <span>
               <a
-                href="https://www.strava.com"
+                href="https://www.strava.com/athletes/45046621"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -169,7 +169,7 @@ const CreditsModal: React.FC = () => {
             <strong>Versioned with</strong>
             <span>
               <a
-                href="https://github.com"
+                href="https://github.com/charlieforward9/NEW_HEAT"
                 target="_blank"
                 rel="noopener noreferrer"
               >
