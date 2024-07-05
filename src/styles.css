@@ -355,7 +355,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   width: 100%;
-  margin: 10px;
+  margin: 5px;
   max-width: 400px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Matching shadow */
   color: white; /* Text color to match existing theme */
