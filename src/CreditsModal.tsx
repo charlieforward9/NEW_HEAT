@@ -106,6 +106,18 @@ const CreditsModal: React.FC = () => {
             </span>
           </li>
           <li>
+            <strong>Styled with</strong>
+            <span>
+              <a
+                href="https://developer.mozilla.org/en-US/docs/Web/CSS"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                CSS
+              </a>
+            </span>
+          </li>
+          <li>
             <strong>Mapped with</strong>
             <span>
               <a
